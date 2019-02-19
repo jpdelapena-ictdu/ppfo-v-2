@@ -87,6 +87,11 @@ Route::group([
 	// report routes
 	Route::get('rooms/{id}/personnel/items/download', 'RoomPersonnelController@downloadItem')->name('room.personnel.download.item');
 
+	//computer routes
+	Route::get('computers', 'ComputerController@index')->name('computers.index');
+	Route::get('computers/create', 'ComputerController@create')->name('computers.create');
+	Route::post('computers/create', 'ComputerController@store')->name('computers.store');
+
 
 
 }); // this should be the absolute last line of this file

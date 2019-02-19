@@ -13,6 +13,7 @@
 	<li><a href="{{ route('user.index') }}"><i class="fa fa-users"></i> <span>Personnel</span></a></li>
 	<li><a href="{{ route('building.index') }}"><i class="fa fa-building"></i> <span>Building</span></a></li>
 	<li><a href="{{ route('room.index') }}"><i class="fa fa-building"></i> <span>Room</span></a></li>
+	<li><a href="{{ route('computers.index') }}"><i class="fa fa-building"></i> <span>Computers</span></a></li>
 	<li class="treeview">
 	    <a href="#"><i class="fa fa-newspaper-o"></i> <span>Items</span> <i class="fa fa-angle-left pull-right"></i></a>
 	    <ul class="treeview-menu">
