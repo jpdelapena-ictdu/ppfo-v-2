@@ -95,6 +95,9 @@ Route::group([
 	Route::match(['PUT', 'PATCH'], 'admin/computers/{id}/edit', 'ComputerController@update')->name('computer.update');
 	Route::delete('admin/computers/{id}/delete', 'ComputerController@destroy')->name('computer.destroy');
 
+	//Computer parts routes
+	Route::get('admin/computers/{id}/parts/create', 'ComputerPartsController@create')->name('computerparts.create');
+	Route::post('admin/computers/{id}/parts/create', 'ComputerPartsController@store')->name('computerparts.store');
 
 
 }); // this should be the absolute last line of this file

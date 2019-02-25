@@ -59,11 +59,17 @@
                 @elseif($row->status == 3)
                 <td>For Calibrate</td>
                 @endif
-                <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
+                <td>
+
+                  <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> 
+                  <a href="{{ route('computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
+                  <a href="{{ route('computerparts.create', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Add Computer Parts</a> 
+                  <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('computer.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
                             {{ method_field('DELETE') }}
                           </form></td>
+                  
               </tr>
               @endforeach
             </tbody>
@@ -103,6 +109,12 @@
           @elseif($row->status == 3)
           <p id="vstatus">For Calibrate</p>
           @endif
+          @foreach($parts as $row1)
+          <label>Parts</label>
+          <p id="vpartstype">{{ $row1->type }}</p>
+          <p id="vpartstype">{{ $row1->brand }}</p>
+          <p id="vpartstype">{{ $row1->description }}</p>
+          @endforeach
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

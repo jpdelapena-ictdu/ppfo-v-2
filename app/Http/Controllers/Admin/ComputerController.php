@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Computer;
 use App\Room;
+use App\ComputerParts;
 use Auth;
 
 class ComputerController extends Controller
@@ -30,6 +31,7 @@ class ComputerController extends Controller
 
     	foreach ($computers as $row) {
     		$room = Room::find($row->room_id);
+    		
     		$pcArr[$x++] = [
     			'id' => $row->id,
     			'pc_number' => $row->pc_number,
@@ -37,11 +39,13 @@ class ComputerController extends Controller
                 'status' => $row->status
     		];
     	}
+    	$parts = ComputerParts::where('computer_parts.pc_id', '=', $computers->id)->first();
 
     	$pcArr = json_decode(json_encode($pcArr));
 
     	return view('admin.computers.index')
-    		->with('computers', $pcArr);
+    		->with('computers', $pcArr)
+    		->with('parts', $parts);
 
     }
 
