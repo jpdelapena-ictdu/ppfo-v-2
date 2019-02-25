@@ -40,7 +40,7 @@
         </div>
     @endif
 
-      <form method="post" action="{{ route('computerparts.store' , $computer->id) }}" enctype="multipart/form-data">
+      <form method="post" action="{{ route('component.store' , $computer->id) }}" enctype="multipart/form-data">
       {!! csrf_field() !!}
       <div class="box">
 

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\ComputerParts;
+use App\Component;
 use App\Computer;
 use Auth;
 use Alert;
 
-class ComputerPartsController extends Controller
+class ComponentController extends Controller
 {
     public function create($id) {
 	abort_if(Auth::user()->user_type == 2, 404);
@@ -30,7 +30,7 @@ class ComputerPartsController extends Controller
     		'date_purchased' => 'required'
     	]);
     	$computer = Computer::find($id);
-    	$parts = New ComputerParts;
+    	$parts = New Component;
     	$parts->pc_id = $computer->id;
     	$parts->type = $request->type;
     	$parts->brand = $request->brand;

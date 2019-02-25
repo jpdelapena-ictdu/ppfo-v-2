@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Computer;
 use App\Room;
-use App\ComputerParts;
+use App\Component;
 use Auth;
+use Alert;
 
 class ComputerController extends Controller
 {
@@ -25,7 +26,7 @@ class ComputerController extends Controller
     	abort_if(Auth::user()->user_type == 2, 404);
 
     	$computers = Computer::orderBy('updated_at', 'desc')->get();
-
+    	$components = Component::orderBy('updated_at', 'desc')->get();
     	$pcArr = [];
     	$x = 0;
 
@@ -39,13 +40,12 @@ class ComputerController extends Controller
                 'status' => $row->status
     		];
     	}
-    	$parts = ComputerParts::where('computer_parts.pc_id', '=', $computers->id)->first();
 
     	$pcArr = json_decode(json_encode($pcArr));
 
     	return view('admin.computers.index')
     		->with('computers', $pcArr)
-    		->with('parts', $parts);
+    		->with('parts', $components);
 
     }
 

@@ -63,7 +63,7 @@
 
                   <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> 
                   <a href="{{ route('computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
-                  <a href="{{ route('computerparts.create', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Add Computer Parts</a> 
+                  <a href="{{ route('component.create', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Add Computer Parts</a> 
                   <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('computer.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -109,11 +109,15 @@
           @elseif($row->status == 3)
           <p id="vstatus">For Calibrate</p>
           @endif
-          @foreach($parts as $row1)
+          <hr>
           <label>Parts</label>
-          <p id="vpartstype">{{ $row1->type }}</p>
-          <p id="vpartstype">{{ $row1->brand }}</p>
-          <p id="vpartstype">{{ $row1->description }}</p>
+          <br>
+          @foreach($parts as $row1)
+          @if($row1->pc_id == $row->id)
+                <label>{{ $row1->type }}</label>
+                <p id="vpartstype">Brand: {{ $row1->brand }}</p>
+                <p id="vpartstype">Description: {{ $row1->description }}</p>
+          @endif
           @endforeach
         </div>
         <div class="modal-footer">

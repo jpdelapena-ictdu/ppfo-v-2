@@ -13,7 +13,7 @@ class CreateComputerPartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('computer_parts', function (Blueprint $table) {
+        Schema::create('components', function (Blueprint $table) {
             $table->increments('id');
             $table->string('pc_id');
             $table->string('type');
