@@ -88,9 +88,12 @@ Route::group([
 	Route::get('rooms/{id}/personnel/items/download', 'RoomPersonnelController@downloadItem')->name('room.personnel.download.item');
 
 	//computer routes
-	Route::get('computers', 'ComputerController@index')->name('computers.index');
-	Route::get('computers/create', 'ComputerController@create')->name('computers.create');
-	Route::post('computers/create', 'ComputerController@store')->name('computers.store');
+	Route::get('admin/computers', 'ComputerController@index')->name('computer.index');
+	Route::get('admin/computers/create', 'ComputerController@create')->name('computer.create');
+	Route::post('admin/computers/create', 'ComputerController@store')->name('computer.store');
+	Route::get('admin/computers/{id}/edit', 'ComputerController@edit')->name('computer.edit');
+	Route::match(['PUT', 'PATCH'], 'admin/computers/{id}/edit', 'ComputerController@update')->name('computer.update');
+	Route::delete('admin/computers/{id}/delete', 'ComputerController@destroy')->name('computer.destroy');
 
 
 

@@ -13,8 +13,11 @@ class CreateCreateComputersTablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('create_computers_tables', function (Blueprint $table) {
+        Schema::create('computers', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('pc_number');
+            $table->string('room_id');
+            $table->string('status');
             $table->timestamps();
         });
     }

@@ -19,10 +19,12 @@ class CreateItemTable extends Migration
             $table->text('description');
             $table->string('type');
             $table->string('category');
+            $table->string('date_purchased');
             $table->integer('quantity');
             $table->integer('working')->nullable();
             $table->integer('not_working')->nullable();
             $table->integer('for_repair')->nullable();
+            $table->integer('for_calibrate')->nullable();
             $table->timestamps();
         });
     }

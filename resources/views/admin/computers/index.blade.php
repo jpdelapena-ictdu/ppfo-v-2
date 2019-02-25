@@ -30,7 +30,7 @@
     <div class="col-md-12">
       <div class="box">
         <div class="box-header hidden-print with-border">
-            <a href="{{ route('item.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Item</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
+            <a href="{{ route('computer.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Item</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
         </div>
 
         <div class="box-body overflow-hidden">
@@ -39,25 +39,28 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Building</th>
                 <th>Room</th>
-                <th>Item</th>
-                <th>Type</th>
-                <th>Category</th>
-                <th>Actions</th>
+                <th>PC Number</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($items as $row)
+              @foreach($computers as $row)
               <tr>
                 <td>{{ $row->id }}</td>
-                <td>{{ $row->building }}</td>
                 <td>{{ $row->room }}</td>
-                <td>{{ $row->description }}</td>
-                <td>{{ $row->type }}</td>
-                <td>{{ $row->category }}</td>
-                <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('item.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
-                    <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('item.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
+                <td>{{ $row->pc_number }}</td>
+                @if($row->status == 0)
+                <td>Working</td>
+                @elseif($row->status == 1)
+                <td>Not Working</td>
+                @elseif($row->status == 2)
+                <td>For Repair</td>
+                @elseif($row->status == 3)
+                <td>For Calibrate</td>
+                @endif
+                <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
+                    <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('computer.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
                             {{ method_field('DELETE') }}
                           </form></td>
@@ -73,7 +76,7 @@
 
   </div>
   
-  @foreach($items as $row)
+  @foreach($computers as $row)
   <!-- Modal -->
   <div class="modal fade" id="messageModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -84,42 +87,22 @@
         </div>
         <div class="modal-body">
           {{-- modal content --}}
-          <label>Building</label>
-          <p id="vbuilding">{{ $row->building }}</p>
-
           <label>Room</label>
-          <p id="vroom">{{ $row->room }}</p>
+          <p id="vbuilding">{{ $row->room }}</p>
+
+          <label>PC Number</label>
+          <p id="vroom">{{ $row->pc_number }}</p>
 
           <label>Description</label>
-          <p id="vdescription">{{ $row->description }}</p>
-
-          <label>Type</label>
-          <p id="vtype">{{ $row->type }}</p>
-
-          <label>Category</label>
-          <p id="vcategory">{{ $row->category }}</p>
-
-          <label>Quantity</label>
-          <p id="vquantity">{{ $row->quantity }}</p>
-          
-          <hr style="border: 1px solid #3c8dbc;">
-          <div class="row" >
-            <div class="col-xs-4">
-              <label>Working</label>
-              <p id="vworking">{{ $row->working }}</p>
-            </div>
-
-            <div class="col-xs-4">
-              <label>Not Working</label>
-              <p id="vnot_working">{{ $row->not_working }}</p>
-            </div>
-            
-            <div class="col-xs-4">
-              <label>For Repair</label>
-              <p id="vfor_repair">{{ $row->for_repair }}</p>
-            </div>
-          </div>
-
+          @if($row->status == 0)
+          <p id="vstatus">Working</p>
+          @elseif($row->status == 1)
+          <p id="vstatus">Not Working</p>
+          @elseif($row->status == 2)
+          <p id="vstatus">For Repair</p>
+          @elseif($row->status == 3)
+          <p id="vstatus">For Calibrate</p>
+          @endif
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
