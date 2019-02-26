@@ -24,7 +24,7 @@ class CreateComputerPartsTable extends Migration
             $table->string('date_purchased');
             $table->string('amount');
             $table->string('date_issued');
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

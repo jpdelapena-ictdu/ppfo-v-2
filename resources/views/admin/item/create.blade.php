@@ -75,16 +75,16 @@
 
           <div class="form-group col-xs-12">
             <div class="row">
+
+              <div class="col-xs-4">
+                <label>Brand <span class="required-field">*</span></label>
+                <input type="text" name="brand" class="form-control" id="brand">
+              </div>
+
               <div class="col-xs-4">
                 <label>Description <span class="required-field">*</span></label>
                 <input type="text" name="description" class="form-control" id="description">
-              </div>
-          
-              <div class="col-xs-4">
-                <label>Type <span class="required-field">*</span></label>
-                <input type="text" name="type" class="form-control" id="type">
-              </div>
-
+              </div>                   
 
               <div class="col-xs-4">
                 <label>Quantity <span class="required-field">*</span></label>
@@ -102,7 +102,7 @@
 
               <div class="col-xs-3">
                 <label>Date Purchased <span class="required-field">*</span></label>
-                <input type="text" name="date_purchased" class="form-control" id="date_purchased">
+                <input type="date" name="date_purchased" class="form-control" id="date_purchased">
               </div>
 
               <div class="col-xs-3">
@@ -112,7 +112,7 @@
 
               <div class="col-xs-3">
                 <label>Date Issued <span class="required-field">*</span></label>
-                <input type="text" name="date_issued" class="form-control" id="date_issued">
+                <input type="date" name="date_issued" class="form-control" id="date_issued">
               </div>
 
             </div>
@@ -142,6 +142,10 @@
             </div>
           </div>
 
+          <div class="form-group col-xs-12">
+            <label>Remarks</label>
+            <input type="text" name="remarks" class="form-control" id="remarks">
+          </div>
         </div><!-- /.box-body -->
         <div class="box-footer">
           <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
@@ -168,7 +172,7 @@
     // alert( this.value );
     if(this.value == 0){
       $('#description').prop('disabled', true);
-      $('#type').prop('disabled', true);
+      $('#brand').prop('disabled', true);
       $('#date_issued').prop('disabled', true);
       $('#amount').prop('disabled', true);
       $('#date_purchased').prop('disabled', true);
@@ -177,9 +181,10 @@
       $('#not_working').prop('disabled', true);
       $('#for_repair').prop('disabled', true);
       $('#for_calibrate').prop('disabled', true);
+      $('#remarks').prop('disabled', true);
     }else{
       $('#description').prop('disabled', false);
-      $('#type').prop('disabled', false);
+      $('#brand').prop('disabled', false);
       $('#date_issued').prop('disabled', false);
       $('#amount').prop('disabled', false);
       $('#date_purchased').prop('disabled', false);
@@ -188,6 +193,7 @@
       $('#not_working').prop('disabled', false);
       $('#for_repair').prop('disabled', false);
       $('#for_calibrate').prop('disabled', false);
+      $('#remarks').prop('disabled', false);
     }
     /*$.getJSON("/category/"+ $(this).val() +"/positions", function(jsonData){
         select = '<select name="position" class="form-control input-sm " required id="position" >';

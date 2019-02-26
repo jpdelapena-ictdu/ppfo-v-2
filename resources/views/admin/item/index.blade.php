@@ -35,34 +35,50 @@
 
         <div class="box-body overflow-hidden">
 
-          <table id="crudTable" class="table table-striped table-hover display responsive nowrap" cellspacing="0">
+          <table id="crudTable" class="table table-bordered table-hover display responsive nowrap" cellspacing="0">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Building</th>
-                <th>Room</th>
-                <th>Item</th>
-                <th>Type</th>
-                <th>Category</th>
-                <th>Actions</th>
+                <th scope="col">#</th>
+                <th scope="col">Building</th>
+                <th scope="col">Room</th>
+                <th scope="col">Item</th>
+                <th scope="col">Category</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date Purchased</th>
+                <th scope="col">Date Issued</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Remarks</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               @foreach($items as $row)
               <tr>
-                <td>{{ $row->id }}</td>
-                <td>{{ $row->building }}</td>
-                <td>{{ $row->room }}</td>
-                <td>{{ $row->description }}</td>
-                <td>{{ $row->type }}</td>
-                <td>{{ $row->category }}</td>
-                <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('item.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
+                <th scope="row">{{ $row->id }}</td>
+                  <td>{{ $row->building }}</td>
+                  <td>{{ $row->room }}</td>
+                  <td>{{ $row->description }}</td>
+                  @if($row->category == 0)
+                  <td>Computer</td>
+                  @elseif($row->category == 1)
+                  <td>Fixtures & Furnitures</td>
+                  @elseif($row->category == 2)
+                  <td>Aircon</td>
+                  @elseif($row->category == 3)
+                  <td>Equipments</td>
+                  @endif
+                  <td>{{ $row->amount}}</td>
+                  <td>{{ $row->date_purchased}}</td>
+                  <td>{{ $row->date_issued }}</td>
+                  <td>{{ $row->quantity }}</td>
+                  <td>{{ $row->remarks }}</td>
+                  <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('item.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('item.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
-                            {{ method_field('DELETE') }}
-                          </form></td>
-              </tr>
-              @endforeach
+                      {{ method_field('DELETE') }}
+                    </form></td>
+                  </tr>
+                  @endforeach
             </tbody>
           </table>
 
@@ -93,8 +109,8 @@
           <label>Description</label>
           <p id="vdescription">{{ $row->description }}</p>
 
-          <label>Type</label>
-          <p id="vtype">{{ $row->type }}</p>
+          <label>Brand</label>
+          <p id="vtype">{{ $row->brand }}</p>
 
           <label>Category</label>
           <p id="vcategory">{{ $row->category }}</p>

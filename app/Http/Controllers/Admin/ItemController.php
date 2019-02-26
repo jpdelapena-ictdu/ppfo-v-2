@@ -32,13 +32,19 @@ class ItemController extends Controller
                 'building' => $building->name,
     			'room_id' => $row->room_id,
     			'room' => $room->name,
+                'category' => $row->category,
     			'description' => $row->description,
-    			'type' => $row->type,
-    			'category' => $row->category,
+                'brand' => $row->brand,
+                'serial' =>$row->serial,
+                'date_purchased' => $row->date_purchased,
+                'amount' => $row->amount,
+                'date_issued' => $row->date_issued,
     			'quantity' => $row->quantity,
     			'working' => $row->working,
     			'not_working' => $row->not_working,
-    			'for_repair' => $row->for_repair
+    			'for_repair' => $row->for_repair,
+                'for_calibrate' => $row->for_calibrate,
+                'remarks' => $row->remarks
     		];
     	}
 
@@ -80,9 +86,9 @@ class ItemController extends Controller
             }
         }
     	$this->validate($request, [
-    		'room_id' => 'required',
+    		'room' => 'required',
     		'description' => 'required',
-    		'type' => 'required|max:191',
+            'brand' => 'required',
     		'category' => 'required|max:191|not_in:none',
     		'quantity' => 'required|numeric',
             'date_purchased' => 'required',
@@ -96,11 +102,17 @@ class ItemController extends Controller
     	]);
 
     	$item = New Item;
-    	$item->room_id = $request->room_id;
+    	$item->room_id = $request->room;
     	$item->description = $request->description;
-    	$item->type = $request->type;
+        $item->brand = $request->brand;
     	$item->category = $request->category;
     	$item->quantity = $request->quantity;
+        $item->serial = $request->serial;
+        $item->date_purchased = $request->date_purchased;
+        $item->amount = $request->amount;
+        $item->date_issued = $request->date_issued;
+        $item->remarks = $request->remarks;
+
     	if (!$request->working == '') {
     		$item->working = $request->working;
     	}

@@ -28,7 +28,7 @@ class CreateItemTable extends Migration
             $table->integer('not_working')->nullable();
             $table->integer('for_repair')->nullable();
             $table->integer('for_calibrate')->nullable();
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }
