@@ -15,11 +15,16 @@ class CreateComputerPartsTable extends Migration
     {
         Schema::create('components', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('pc_id');
+            $table->string('pc_id')->nullable();
+            $table->string('category');
             $table->string('type');
-            $table->string('brand');
             $table->string('description');
+            $table->string('brand');
+            $table->string('serial');
             $table->string('date_purchased');
+            $table->string('amount');
+            $table->string('date_issued');
+            $table->string('remarks');
             $table->timestamps();
         });
     }

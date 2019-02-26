@@ -12,7 +12,7 @@
 @section('header')
     <section class="content-header">
       <h1>
-        Items<small>Add item.</small>
+        Computers<small>Add Computer.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ backpack_url() }}">Admin</a></li>
@@ -45,32 +45,37 @@
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Add a new item</h3>
+          <h3 class="box-title">Add a new Computer</h3>
         </div>
         <div class="box-body row display-flex-wrap" style="display: flex; flex-wrap: wrap;">
 
           <div class="form-group col-xs-12">
-            <label>Room <span class="required-field">*</span></label>
-            <select class="form-control js-single" name="room">
-              @foreach($rooms as $row)
-                <option value="{{ $row->id }}">{{ '(' .$row->short_name. ') ' .$row->name }}</option>
-              @endforeach
-            </select>
-          </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <label>Room <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="room">
+                  @foreach($rooms as $row)
+                  <option value="{{ $row->id }}">{{ '(' .$row->short_name. ') ' .$row->name }}</option>
+                  @endforeach
+                </select>
+              </div>
 
-          <div class="form-group col-xs-12">
-            <label>PC Number <span class="required-field">*</span></label>
-            <input type="text" name="pc_number" class="form-control">
-          </div>
+              <div class="col-xs-4">
+                <label>PC Number <span class="required-field">*</span></label>
+                <input type="text" name="pc_number" class="form-control">
+              </div>
 
-          <div class="form-group col-xs-12">
-            <label>Status <span class="required-field">*</span></label>
-              <select class="form-control js-single" name="status">
-                <option value="0">Working</option>
-                <option value="1">Not Working</option>
-                <option value="2">For Repair</option>
-                <option value="3">For Calibrate</option>
-              </select>
+              <div class="col-xs-4">
+                <label>Status <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="status">
+                  <option value="0">Working</option>
+                  <option value="1">Not Working</option>
+                  <option value="2">For Repair</option>
+                  <option value="3">For Calibrate</option>
+                </select>
+              </div>
+
+            </div>
           </div>
 
         </div><!-- /.box-body -->

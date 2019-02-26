@@ -110,14 +110,28 @@
           <p id="vstatus">For Calibrate</p>
           @endif
           <hr>
-          <label>Parts</label>
+          <label>Components</label>
           <br>
           @foreach($parts as $row1)
-          @if($row1->pc_id == $row->id)
+            @if($row1->pc_id == $row->id)
+              @if($row1->category == 1)
                 <label>{{ $row1->type }}</label>
                 <p id="vpartstype">Brand: {{ $row1->brand }}</p>
                 <p id="vpartstype">Description: {{ $row1->description }}</p>
-          @endif
+              @endif
+            @endif
+          @endforeach
+          <hr>
+          <label>Parts</label>
+          <br>
+          @foreach($parts as $row1)
+            @if($row1->pc_id == $row->id)
+              @if($row1->category == 0)
+                <label>{{ $row1->type }}</label>
+                <p id="vpartstype">Brand: {{ $row1->brand }}</p>
+                <p id="vpartstype">Description: {{ $row1->description }}</p>
+              @endif
+            @endif
           @endforeach
         </div>
         <div class="modal-footer">

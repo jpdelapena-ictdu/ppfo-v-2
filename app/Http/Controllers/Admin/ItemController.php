@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Room;
 use App\Item;
 use App\Building;
+use App\Computer;
 use Auth;
 
 class ItemController extends Controller
@@ -59,16 +60,39 @@ class ItemController extends Controller
 
     public function store(Request $request) {
         abort_if(Auth::user()->user_type == 2, 404);
+        if($request->category != 'none'){
+            if($request->category == '0'){
+                $this->validate($request, [
+                    'quantity' => 'required|numeric',
+                    'room' => 'required'
+                    ]);
+                for($i = 1; $i <= $request->quantity; $i++){
+                    $computer = New Computer;
+                    $computer->pc_number = 'PC' . $i;
+                    $computer->room_id = $request->room;
+                    $computer->status = 0;
+                    $computer->save();                    
+                }
 
+                \Alert::success('Computer has been successfully added.')->flash();
+
+                return redirect()->route('item.index');
+            }
+        }
     	$this->validate($request, [
     		'room_id' => 'required',
     		'description' => 'required',
     		'type' => 'required|max:191',
-    		'category' => 'required|max:191',
+    		'category' => 'required|max:191|not_in:none',
     		'quantity' => 'required|numeric',
-    		'working' => 'required_without_all:not_working,for_repair',
-    		'not_working' => 'required_without_all:working,for_repair',
-    		'for_repair' => 'required_without_all:working,not_working'
+            'date_purchased' => 'required',
+            'serial' => 'required',
+            'date_issued' => 'required',
+            'amount' => 'required',
+    		'working' => 'required_without_all:not_working,for_repair,for_calibrate',
+    		'not_working' => 'required_without_all:working,for_repair,for_calibrate',
+    		'for_repair' => 'required_without_all:working,not_working,for_calibrate',
+            'for_calibrate' => 'required_without_all:working,not_working,for_repair'
     	]);
 
     	$item = New Item;
@@ -86,6 +110,9 @@ class ItemController extends Controller
     	if (!$request->for_repair == '') {
     		$item->for_repair = $request->for_repair;
     	}
+        if (!$request->for_calibrate == '') {
+            $item->for_calibrate = $request->for_calibrate;
+        }
     	$item->save();
 
     	// show a success message

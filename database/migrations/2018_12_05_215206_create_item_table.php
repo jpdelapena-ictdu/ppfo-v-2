@@ -17,14 +17,18 @@ class CreateItemTable extends Migration
             $table->increments('id');
             $table->integer('room_id');
             $table->text('description');
-            $table->string('type');
             $table->string('category');
-            $table->string('date_purchased');
+            $table->string('brand');
             $table->integer('quantity');
+            $table->string('serial');
+            $table->string('date_purchased');
+            $table->string('amount');
+            $table->string('date_issued');
             $table->integer('working')->nullable();
             $table->integer('not_working')->nullable();
             $table->integer('for_repair')->nullable();
             $table->integer('for_calibrate')->nullable();
+            $table->string('remarks');
             $table->timestamps();
         });
     }

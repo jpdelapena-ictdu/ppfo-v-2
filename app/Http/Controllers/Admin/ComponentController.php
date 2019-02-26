@@ -24,18 +24,23 @@ class ComponentController extends Controller
     	abort_if(Auth::user()->user_type == 2, 404);
 
     	$this->validate($request, [
-    		'type' => 'required',
+    		'type' => 'required|not_in:none',
     		'brand' => 'required',
+            'category' => 'required|not_in:none',
     		'description' => 'required',
     		'date_purchased' => 'required'
     	]);
     	$computer = Computer::find($id);
     	$parts = New Component;
     	$parts->pc_id = $computer->id;
+        $parts->category = $request->category;
     	$parts->type = $request->type;
     	$parts->brand = $request->brand;
     	$parts->description = $request->description;
+        $parts->amount = $request->amount;
     	$parts->date_purchased = $request->date_purchased;
+        $parts->serial = $request->serial;
+        $parts->date_issued = $request->date_issued;
     	$parts->save();
 
     	// show a success message

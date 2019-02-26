@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('auth/admin-login');
+    return redirect('/admin/dashboard');
 });
 
 // Admin Login
