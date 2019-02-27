@@ -35,7 +35,7 @@
 
         <div class="box-body overflow-hidden">
 
-          <table id="crudTable" class="table table-bordered table-hover display responsive nowrap" cellspacing="0">
+          <table id="crudTable" class="table table-bordered table-striped table-hover display responsive nowrap" cellspacing="0">
             <thead>
               <tr>
                 <th scope="col">#</th>

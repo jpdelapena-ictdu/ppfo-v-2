@@ -35,13 +35,13 @@
 
         <div class="box-body overflow-hidden">
 
-          <table id="crudTable" class="table table-striped table-hover display responsive nowrap" cellspacing="0">
+          <table id="crudTable" class="table table-bordered table-dark table-hover display responsive nowrap" cellspacing="0">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Room</th>
+                <th>Brand</th>
                 <th>Description</th>
-                <th>Type</th>
                 <th>Category</th>
                 <th>Actions</th>
               </tr>
@@ -51,9 +51,17 @@
               <tr>
                 <td>{{ $row->id }}</td>
                 <td>{{ $row->room }}</td>
+                <td>{{ $row->brand }}</td>
                 <td>{{ $row->description }}</td>
-                <td>{{ $row->type }}</td>
-                <td>{{ $row->category }}</td>
+                @if($row->category == 0)
+                  <td>Computer</td>
+                  @elseif($row->category == 1)
+                  <td>Fixtures & Furnitures</td>
+                  @elseif($row->category == 2)
+                  <td>Aircon</td>
+                  @elseif($row->category == 3)
+                  <td>Equipments</td>
+                  @endif
                 <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('item.personnel.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('item.personnel.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -88,8 +96,8 @@
           <label>Description</label>
           <p id="vdescription">{{ $row->description }}</p>
 
-          <label>Type</label>
-          <p id="vtype">{{ $row->type }}</p>
+          <label>Brand</label>
+          <p id="vtype">{{ $row->brand }}</p>
 
           <label>Category</label>
           <p id="vcategory">{{ $row->category }}</p>
