@@ -96,8 +96,19 @@ Route::group([
 	Route::delete('admin/computers/{id}/delete', 'ComputerController@destroy')->name('computer.destroy');
 
 	//Computer Components routes
+	Route::get('admin/components', 'ComponentController@index')->name('component.index');
 	Route::get('admin/computers/{id}/component/create', 'ComponentController@create')->name('component.create');
 	Route::post('admin/computers/{id}/component/create', 'ComponentController@store')->name('component.store');
+	Route::post('admin/computers/{id}/component/create/new', 'ComponentController@storenew')->name('component.store.new');
+
+
+	//Excess Component routes
+	Route::get('admin/component/create', 'ComponentController@excesscreate')->name('excess.component.create');
+	Route::post('admin/component/create', 'ComponentController@excessstore')->name('excess.component.store');
+	Route::post('admin/component/create/new', 'ComponentController@excessstorenew')->name('excess.component.store.new');
+	Route::get('admin/component/{id}/edit', 'ComponentController@edit')->name('component.edit');
+	Route::match(['PUT', 'PATCH'], 'admin/component/{id}/edit', 'ComponentController@update')->name('component.update');
+
 
 
 }); // this should be the absolute last line of this file

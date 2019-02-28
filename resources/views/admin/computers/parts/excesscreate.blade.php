@@ -40,12 +40,12 @@
     </div>
     @endif
 
-    <form method="post" enctype="multipart/form-data" id="create_form">
+    <form method="post" id="create_form" enctype="multipart/form-data">
       {!! csrf_field() !!}
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Add a new Part/Component for {{ $computer->pc_number }}</h3>
+          <h3 class="box-title">Add a new Part/Component</h3>
         </div>
         <div class="box-body row display-flex-wrap" style="display: flex; flex-wrap: wrap;">
 
@@ -114,17 +114,17 @@
 
       </div><!-- /.box-body -->
       <div class="box-footer">
-        <div class="border-top">
-          <div class="card-body">
-            <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('component.store' , $computer->id) }}"><i class="glyphicon glyphicon-floppy-disk"></i> Submit</button>
-            <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('component.store.new', $computer->id) }}"><i class="glyphicon glyphicon-floppy-saved"></i> Submit And New</button>
-          </div>
+       <div class="border-top">
+        <div class="card-body">
+          <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('excess.component.store') }}"><i class="glyphicon glyphicon-floppy-disk"></i> Submit</button>
+          <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('excess.component.store.new') }}"><i class="glyphicon glyphicon-floppy-saved"></i> Submit And New</button>
         </div>
-      </div><!-- /.box-footer-->
+      </div>
+    </div>
+  </div><!-- /.box-footer-->
 
-    </div><!-- /.box -->
-
-  </div>
+</div><!-- /.box -->
+</div>
 </div>
 
 @endsection
