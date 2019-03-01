@@ -32,7 +32,7 @@ class ComputerController extends Controller
 
     	foreach ($computers as $row) {
     		$room = Room::find($row->room_id);
-    		
+
     		$pcArr[$x++] = [
     			'id' => $row->id,
     			'pc_number' => $row->pc_number,

@@ -100,6 +100,7 @@ Route::group([
 	Route::get('admin/computers/{id}/component/create', 'ComponentController@create')->name('component.create');
 	Route::post('admin/computers/{id}/component/create', 'ComponentController@store')->name('component.store');
 	Route::post('admin/computers/{id}/component/create/new', 'ComponentController@storenew')->name('component.store.new');
+	Route::delete('admin/component/{id}/delete', 'ComponentController@destroy')->name('component.destroy');
 
 
 	//Excess Component routes
@@ -108,6 +109,7 @@ Route::group([
 	Route::post('admin/component/create/new', 'ComponentController@excessstorenew')->name('excess.component.store.new');
 	Route::get('admin/component/{id}/edit', 'ComponentController@edit')->name('component.edit');
 	Route::match(['PUT', 'PATCH'], 'admin/component/{id}/edit', 'ComponentController@update')->name('component.update');
+	Route::match(['PUT', 'PATCH'], 'admin/component/{id}/add', 'ComponentController@add')->name('add.component.update');
 
 
 

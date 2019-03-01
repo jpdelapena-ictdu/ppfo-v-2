@@ -45,34 +45,18 @@
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Add a new Part/Component</h3>
+          <h3 class="box-title">Edit {{ $component->type }} Details</h3>
         </div>
         <div class="box-body row display-flex-wrap" style="display: flex; flex-wrap: wrap;">
 
           <div class="form-group col-xs-12">
             <div class="row">
-              <div class="col-xs-3">
-                <label>Category <span class="required-field">*</span></label>
-                <select class="form-control js-single" name="category" id="category">
-                  <option value="none">Select Category</option>
-                  <option value="0" @if($component->category == 0) selected @endif>Peripherals</option>
-                  <option value="1" @if($component->category == 1) selected @endif>Components</option>
-                </select>
-              </div>
-
-              <div class="col-xs-3">
-                <label>Type <span class="required-field">*</span></label>
-                <select class="form-control js-single" name="type" id="type">
-                  <option value="none">Select Type</option>
-                </select>
-              </div>
-
-              <div class="col-xs-3">
+              <div class="col-xs-6">
                 <label>Brand <span class="required-field">*</span></label>
                 <input type="text" name="brand" class="form-control" value="{{ $component->brand }}">
               </div>
 
-              <div class="col-xs-3">
+              <div class="col-xs-6">
                 <label>Description <span class="required-field">*</span></label>
                 <input type="text" name="description" class="form-control" value="{{ $component->description }}">
               </div>
@@ -138,18 +122,18 @@
   {
     // alert( this.value );
     if(this.value == 0){
-      $('#type').append('<option value="Monitor" @if($component->category == 1 && $component->type === 'Monitor') selected @endif>Monitor</option>');
-      $('#type').append('<option value="Keyboard" selected="selected" @if($component->type == 'Keyboard') selected @endif>Keyboard</option>');
-      $('#type').append('<option value="Mouse" selected="selected" @if($component->type == 'Mouse') selected @endif>Mouse</option>');
-      $('#type').append('<option value="Headset" selected="selected" @if($component->type == 'Headset') selected @endif>Headset</option>');
+      $('#type').append('<option value="Monitor" selected="selected">Monitor</option>');
+      $('#type').append('<option value="Keyboard" selected="selected">Keyboard</option>');
+      $('#type').append('<option value="Mouse" selected="selected">Mouse</option>');
+      $('#type').append('<option value="Headset" selected="selected">Headset</option>');
     }
 
     if(this.value == 1) {
-      $('#type').append('<option value="RAM" selected="selected" @if($component->type == 'RAM') selected @endif>RAM</option>');
-      $('#type').append('<option value="HDD" selected="selected" @if($component->type == 'HDD') selected @endif>HDD</option>');
-      $('#type').append('<option value="CPU" selected="selected" @if($component->type == 'CPU') selected @endif>CPU</option>');
-      $('#type').append('<option value="Motherboard" selected="selected" @if($component->type == 'Motherboard') selected @endif>Motherboard</option>');
-      $('#type').append('<option value="GPU" selected="selected" @if($component->type == 'GPU') selected @endif>GPU</option>');
+      $('#type').append('<option value="RAM" selected="selected">RAM</option>');
+      $('#type').append('<option value="HDD" selected="selected">HDD</option>');
+      $('#type').append('<option value="CPU" selected="selected">CPU</option>');
+      $('#type').append('<option value="Motherboard" selected="selected">Motherboard</option>');
+      $('#type').append('<option value="GPU" selected="selected">GPU</option>');
     }
     });
 </script>

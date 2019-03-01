@@ -22,7 +22,8 @@ class ComponentController extends Controller
         $x = 0;
 
         foreach ($components as $row) {
-            if($row->pc_id == ''){
+            $pc_num = Computer::find($row->pc_id);
+            if($row->pc_id == '' || !isset($pc_num)){
 
                 $partsArr[$x++] = [
                 'id' => $row->id,
@@ -39,30 +40,32 @@ class ComponentController extends Controller
                 'remarks' => $row->remarks
                 ];
             }else{
-            $pc = Computer::find($row->pc_id);
-            $room = Room::find($pc->room_id);
-            
-            $partsArr[$x++] = [
-                'id' => $row->id,
-                'room' => $room->name,
-                'pc_number' => $pc->pc_number,
-                'category' => $row->category,
-                'type' => $row->type,
-                'description' => $row->description,
-                'brand' => $row->brand,
-                'serial' => $row->serial,
-                'date_purchased' => $row->date_purchased,
-                'amount' => $row->amount,
-                'date_issued' => $row->date_issued,
-                'remarks' => $row->remarks
-            ];
-        }
+                    $pc = Computer::find($row->pc_id);
+                    $room = Room::find($pc->room_id);
+
+                    $partsArr[$x++] = [
+                        'id' => $row->id,
+                        'room' => $room->name,
+                        'pc_number' => $pc->pc_number,
+                        'category' => $row->category,
+                        'type' => $row->type,
+                        'description' => $row->description,
+                        'brand' => $row->brand,
+                        'serial' => $row->serial,
+                        'date_purchased' => $row->date_purchased,
+                        'amount' => $row->amount,
+                        'date_issued' => $row->date_issued,
+                        'remarks' => $row->remarks
+                    ];
+            }
     }   
 
         $partsArr = json_decode(json_encode($partsArr));
 
         return view('admin.computers.parts.index')
-            ->with('parts', $partsArr);
+            ->with('parts', $partsArr)
+            ->with('rooms', $rooms)
+            ->with('computers', $computers);
 
     }
 
@@ -119,24 +122,40 @@ class ComponentController extends Controller
         abort_if(Auth::user()->user_type == 2, 404);
 
         $this->validate($request, [
-            'room' => 'required',
-            'pc_number' => 'required',
-            'status' => 'required|max:191'
-
+            'brand' => 'required',
+            'description' => 'required',
+            'date_purchased' => 'required'
         ]);
 
-        $computer = Computer::find($id);
-        $computer->room_id = $request->room;
-        $computer->pc_number = $request->pc_number;
-        $computer->status = $request->status;
-        $computer->save();
+        $component = component::find($id);
+        $component->category = $component->category;
+        $component->type = $component->type;
+        $component->brand = $request->brand;
+        $component->description = $request->description;
+        $component->amount = $request->amount;
+        $component->date_purchased = $request->date_purchased;
+        $component->serial = $request->serial;
+        $component->date_issued = $request->date_issued;
+        $component->remarks = $request->remarks;
+        $component->save();
 
         // show a success message
-        \Alert::success('The computer has been modified successfully.!')->flash();
+        \Alert::success('The component has been modified successfully.!')->flash();
 
-        return redirect()->route('computer.index');
+        return redirect()->route('component.index');
     }
 
+     public function destroy($id) {
+        abort_if(Auth::user()->user_type == 2, 404);
+        
+        $component = Component::find($id);
+        $component->delete();
+
+        // show a success message
+        \Alert::success('Component has been deleted.')->flash();
+
+        return redirect()->route('component.index');
+    }
 
 
     public function storenew(Request $request, $id) {
@@ -233,5 +252,22 @@ class ComponentController extends Controller
         Alert::success('The Component has been added successfully.')->flash();
 
         return redirect()->route('excess.component.create');
+    }
+
+    public function add(Request $request, $id) {
+        abort_if(Auth::user()->user_type == 2, 404);
+
+        $this->validate($request, [
+            'computer' => 'required'
+        ]);
+
+        $component = Component::find($id);
+        $component->pc_id = $request->computer;
+        $component->save();
+
+        // show a success message
+        \Alert::success('The component has been modified successfully.!')->flash();
+
+        return redirect()->route('component.index');
     }
 }

@@ -12,11 +12,11 @@
 @section('header')
     <section class="content-header">
       <h1>
-        Items<small>All items in the database.</small>
+        Computers<small>All Computers in the database.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ backpack_url() }}">Admin</a></li>
-        <li><a href="{{ route('item.index') }}">Items</a></li>
+        <li><a href="{{ route('item.index') }}">Computers</a></li>
         <li class="active">List</li>
       </ol>
     </section>
@@ -35,13 +35,14 @@
 
         <div class="box-body overflow-hidden">
 
-          <table id="crudTable" class="table table-striped table-hover display responsive nowrap" cellspacing="0">
+          <table id="crudTable" class="table table-striped table-bordered table-hover display responsive nowrap" cellspacing="0">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Room</th>
                 <th>PC Number</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -146,7 +147,7 @@
 
 @section('after_scripts')
 
-  <!-- DATA TABLES SCRIPT -->
+ <!-- DATA TABLES SCRIPT -->
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
@@ -155,6 +156,7 @@
   <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/crud.css') }}">
   <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/form.css') }}">
   <link rel="stylesheet" href="{{ asset('vendor/backpack/crud/css/list.css') }}">
+
 
   <script>
     // datatable init
