@@ -7,6 +7,7 @@
 	    <a href="#"><i class="fa fa-newspaper-o"></i> <span>Items</span> <i class="fa fa-angle-left pull-right"></i></a>
 	    <ul class="treeview-menu">
 	      <li><a href="{{ route('item.personnel.index') }}"><i class="fa fa-bars"></i> Fixtures, Furnitures and <br/>Equipments</a></li>
+	      <li><a href="{{ route('computer.personnel.index') }}"><i class="fa fa-bars"></i>Computers</a></li>
 	    </ul>
 	</li>
 @else

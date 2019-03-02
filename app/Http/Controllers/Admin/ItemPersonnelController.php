@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Item;
 use Auth;
 use App\Building;
+use App\Computer;
+use App\Component;
 use App\Room;
 
 class ItemPersonnelController extends Controller
@@ -18,47 +20,48 @@ class ItemPersonnelController extends Controller
     public function index() {
         abort_if(Auth::user()->user_type == 1, 404);
 
-    	$building = Building::find(Auth::user()->building_id);
-    	$rooms = Room::where('building_id', Auth::user()->building_id)->get();
-    	$items = Item::all();
-    	$itemArr = [];
-    	$x = 0;
+        $building = Building::find(Auth::user()->building_id);
+        $rooms = Room::where('building_id', Auth::user()->building_id)->get();
+        $computers = Computer::all();
+        $items = Item::all();
+        $itemArr = [];
+        $x = 0;
 
-    	foreach ($rooms as $room) {
-    		foreach ($items as $item) {
-    			if ($item->room_id == $room->id) {
-    				$itemArr[$x++] = [
-    					'id' => $item->id,
-                        'building_id' => $building->id,
-                        'building' => $building->name,
-                        'room_id' => $item->room_id,
-                        'room' => $room->name,
-                        'category' => $item->category,
-                        'description' => $item->description,
-                        'brand' => $item->brand,
-                        'serial' =>$item->serial,
-                        'date_purchased' => $item->date_purchased,
-                        'amount' => $item->amount,
-                        'date_issued' => $item->date_issued,
-                        'quantity' => $item->quantity,
-                        'working' => $item->working,
-                        'not_working' => $item->not_working,
-                        'for_repair' => $item->for_repair,
-                        'for_calibrate' => $item->for_calibrate,
-                        'remarks' => $item->remarks,
-    					'created_at' => $item->created_at,
-    					'updated_at' => $item->updated_at
-    				];
-    			}
-    		}
-    	}
+        foreach ($rooms as $room) {
+          foreach ($items as $item) {
+             if ($item->room_id == $room->id) {
+                $itemArr[$x++] = [
+                   'id' => $item->id,
+                   'building_id' => $building->id,
+                   'building' => $building->name,
+                   'room_id' => $item->room_id,
+                   'room' => $room->name,
+                   'category' => $item->category,
+                   'description' => $item->description,
+                   'brand' => $item->brand,
+                   'serial' =>$item->serial,
+                   'date_purchased' => $item->date_purchased,
+                   'amount' => $item->amount,
+                   'date_issued' => $item->date_issued,
+                   'quantity' => $item->quantity,
+                   'working' => $item->working,
+                   'not_working' => $item->not_working,
+                   'for_repair' => $item->for_repair,
+                   'for_calibrate' => $item->for_calibrate,
+                   'remarks' => $item->remarks,
+                   'created_at' => $item->created_at,
+                   'updated_at' => $item->updated_at
+               ];
+           }
+   }
+}
 
-    	$itemArr = json_decode(json_encode($itemArr));
+$itemArr = json_decode(json_encode($itemArr));
 
-    	return view('personnel.item.index')
-    		->with('items', $itemArr)
-    		->with('building', $building);
-    }
+return view('personnel.item.index')
+->with('items', $itemArr)
+->with('building', $building);
+}
 
     public function create() {
         abort_if(Auth::user()->user_type == 1, 404);
