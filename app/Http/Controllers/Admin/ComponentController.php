@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Component;
 use App\Computer;
+use App\Building;
 use App\Room;
 use Auth;
 use Alert;
@@ -18,6 +19,7 @@ class ComponentController extends Controller
         $computers = Computer::orderBy('updated_at', 'desc')->get();
         $components = Component::orderBy('updated_at', 'desc')->get();
         $rooms = Room::orderBy('updated_at', 'desc')->get();
+        $buildings = Building::all();
         $partsArr = [];
         $x = 0;
 
@@ -65,7 +67,8 @@ class ComponentController extends Controller
         return view('admin.computers.parts.index')
             ->with('parts', $partsArr)
             ->with('rooms', $rooms)
-            ->with('computers', $computers);
+            ->with('computers', $computers)
+            ->with('buildings', $buildings);
 
     }
 

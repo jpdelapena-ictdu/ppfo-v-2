@@ -57,11 +57,12 @@ class ItemController extends Controller
 
     public function create() {
         abort_if(Auth::user()->user_type == 2, 404);
-
+        $buildings = Building::all();
     	$rooms = Room::orderBy('updated_at', 'desc')->get();
 
     	return view('admin.item.create')
-    		->with('rooms', $rooms);
+    		->with('rooms', $rooms)
+            ->with('buildings', $buildings);
     }
 
     public function store(Request $request) {
@@ -86,7 +87,7 @@ class ItemController extends Controller
             }
         }
     	$this->validate($request, [
-    		'room' => 'required',
+    		'room' => 'required|not_in:none',
     		'description' => 'required',
             'brand' => 'required',
     		'category' => 'required|max:191|not_in:none',
@@ -138,42 +139,76 @@ class ItemController extends Controller
 
     	$item = Item::find($id);
     	$rooms = Room::orderBy('updated_at', 'desc')->get();
+        $buildings = Building::all();
 
     	return view('admin.item.edit')
     		->with('item', $item)
-    		->with('rooms', $rooms);
+    		->with('rooms', $rooms)
+            ->with('buildings', $buildings);
     }
 
     public function update(Request $request, $id) {
         abort_if(Auth::user()->user_type == 2, 404);
+        if($request->category != 'none'){
+            if($request->category == 0){
 
+                $this->validate($request, [
+                    'quantity' => 'required|numeric',
+                    'room' => 'required'
+                    ]);
+                for($i = 1; $i <= $request->quantity; $i++){
+                    $computer = New Computer;
+                    $computer->pc_number = 'PC' . $i;
+                    $computer->room_id = $request->room;
+                    $computer->status = 0;
+                    $computer->save();            
+                }
+                $item = Item::find($id);
+                $item->delete();
+                \Alert::success('Computer has been successfully added.')->flash();
+
+                return redirect()->route('computer.index');
+            }
+
+        }
     	$this->validate($request, [
-    		'room_id' => 'required',
-    		'description' => 'required',
-    		'type' => 'required|max:191',
-    		'category' => 'required|max:191',
-    		'quantity' => 'required|numeric',
-    		'working' => 'required_without_all:not_working,for_repair',
-    		'not_working' => 'required_without_all:working,for_repair',
-    		'for_repair' => 'required_without_all:working,not_working'
-
+    		'room' => 'required|not_in:none',
+            'description' => 'required',
+            'brand' => 'required',
+            'category' => 'required|max:191|not_in:none',
+            'quantity' => 'required|numeric',
+            'date_purchased' => 'required',
+            'serial' => 'required',
+            'date_issued' => 'required',
+            'amount' => 'required',
+            'working' => 'required_without_all:not_working,for_repair,for_calibrate',
+            'not_working' => 'required_without_all:working,for_repair,for_calibrate',
+            'for_repair' => 'required_without_all:working,not_working,for_calibrate',
+            'for_calibrate' => 'required_without_all:working,not_working,for_repair'
     	]);
 
     	$item = Item::find($id);
-    	$item->room_id = $request->room_id;
-    	$item->description = $request->description;
-    	$item->type = $request->type;
-    	$item->category = $request->category;
+    	$item->room_id = $request->room;
+        $item->category = $request->category;
+        $item->brand = $request->brand;
+        $item->description = $request->description;
     	$item->quantity = $request->quantity;
-    		$item->working = $request->working;
-    		$item->not_working = $request->not_working;
-    		$item->for_repair = $request->for_repair;
+    	$item->serial = $request->serial;
+        $item->date_purchased = $request->date_purchased;
+        $item->amount = $request->amount;
+        $item->date_issued = $request->date_issued;
+        $item->working = $request->working;
+        $item->not_working = $request->not_working;
+        $item->for_repair = $request->for_repair;
+        $item->for_calibrate = $request->for_calibrate;
+        $item->remarks = $request->remarks;
     	$item->save();
 
     	// show a success message
         \Alert::success('The item has been modified successfully.!')->flash();
 
     	return redirect()->route('item.index');
+        
     }
 
     public function destroy($id) {

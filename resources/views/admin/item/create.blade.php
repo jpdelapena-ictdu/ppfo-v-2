@@ -3,23 +3,23 @@
 @section('after_styles')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <style>
-  .required-field {
-    color: red;
-  }
+.required-field {
+  color: red;
+}
 </style>
 @endsection
 
 @section('header')
-    <section class="content-header">
-      <h1>
-        Items<small>Add item.</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ backpack_url() }}">Admin</a></li>
-        <li><a href="{{ route('item.index') }}">Items</a></li>
-        <li class="active">Add</li>
-      </ol>
-    </section>
+<section class="content-header">
+  <h1>
+    Items<small>Add item.</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ backpack_url() }}">Admin</a></li>
+    <li><a href="{{ route('item.index') }}">Items</a></li>
+    <li class="active">Add</li>
+  </ol>
+</section>
 @endsection
 
 @section('content')
@@ -30,17 +30,17 @@
     
     {{-- Show the errors, if any --}}
     @if ($errors->any())
-        <div class="callout callout-danger">
-            {{-- <h4>dsasdadsa</h4> --}}
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="callout callout-danger">
+      {{-- <h4>dsasdadsa</h4> --}}
+      <ul>
+        @foreach($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
     @endif
 
-      <form method="post" action="{{ route('item.store') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('item.store') }}" enctype="multipart/form-data">
       {!! csrf_field() !!}
       <div class="box">
 
@@ -51,27 +51,36 @@
 
           <div class="form-group col-xs-12">
             <div class="row">
-              <div class="col-xs-6">
-            <label>Room <span class="required-field">*</span></label>
-            <select class="form-control js-single" name="room">
-              @foreach($rooms as $row)
-                <option value="{{ $row->id }}">{{ '(' .$row->short_name. ') ' .$row->name }}</option>
-              @endforeach
-            </select>
-            </div>
 
-            <div class="col-xs-6">
-            <label>Category <span class="required-field">*</span></label>
-            <select class="form-control js-single" name="category" id="category">
-              <option value="none">Select Category</option>
-              <option value="0">Computer</option>
-              <option value="1">Fixtures & Furnitures</option>
-              <option value="2">Aircon</option>
-              <option value="3">Equipments</option>
-            </select>
+              <div class="col-xs-4">
+                <label>Building <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="building" id="building">
+                  <option value="none">---Select a Building---</option>
+                  @foreach($buildings as $row)
+                  <option value="{{ $row->id }}">{{ '(' .$row->short_name. ') ' .$row->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="col-xs-4">
+                <label>Room <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="room" id="room">
+                  <option value="none">---Select a Room---</option>
+                </select>
+              </div>
+
+              <div class="col-xs-4">
+                <label>Category <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="category" id="category">
+                  <option value="none">Select Category</option>
+                  <option value="0">Computer</option>
+                  <option value="1">Fixtures & Furnitures</option>
+                  <option value="2">Aircon</option>
+                  <option value="3">Equipments</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
           <div class="form-group col-xs-12">
             <div class="row">
@@ -152,7 +161,7 @@
         </div><!-- /.box-footer-->
 
       </div><!-- /.box -->
-      </form>
+    </form>
   </div>
 </div>
 
@@ -163,11 +172,11 @@
 <script>
   // In your Javascript (external .js resource or <script> tag)
   $(document).ready(function() {
-      $('.js-single').select2();
+    $('.js-single').select2();
   });
 
 
-   $( "#category" ).change(function() 
+  $( "#category" ).change(function() 
   {
     // alert( this.value );
     if(this.value == 0){
@@ -203,7 +212,40 @@
            });
         select += '</select>';
         $("#position").html(select);
-    });*/
+      });*/
+    });
+
+  function reset() {
+     $('#room').empty();
+     $('#room').append('<option value="">---Select a Room---</option>');
+   }
+
+   $( "#building" ).change(function() 
+   {
+    // alert( this.value );
+    <?php foreach($buildings as $row) : ?>
+    if(this.value == {{ $row->id }}){
+      reset();
+      <?php
+      foreach($rooms as $row1){
+        if($row1->building_id == $row->id){ ?>
+          $('#room').append('<option value="{{ $row1->id }}" selected="selected"> {{ $row1->name }} </option>');
+          <?php
+        }
+      }
+
+      ?>
+    }
+    <?php endforeach; ?>
+
+    // if(this.value == 1) {
+    //   $('#type').append('<option value="RAM" selected="selected">RAM</option>');
+    //   $('#type').append('<option value="HDD" selected="selected">HDD</option>');
+    //   $('#type').append('<option value="CPU" selected="selected">CPU</option>');
+    //   $('#type').append('<option value="Motherboard" selected="selected">Motherboard</option>');
+    //   $('#type').append('<option value="GPU" selected="selected">GPU</option>');
+    // }
+
   });
-</script>
-@endsection
+  </script>
+  @endsection

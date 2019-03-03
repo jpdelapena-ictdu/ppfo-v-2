@@ -51,21 +51,30 @@
 
           <div class="form-group col-xs-12">
             <div class="row">
-              <div class="col-xs-4">
-                <label>Room <span class="required-field">*</span></label>
-                <select class="form-control js-single" name="room">
-                  @foreach($rooms as $row)
+
+              <div class="col-xs-3">
+                <label>Building <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="building" id="building">
+                  <option value="none">---Select a Building---</option>
+                  @foreach($buildings as $row)
                   <option value="{{ $row->id }}">{{ '(' .$row->short_name. ') ' .$row->name }}</option>
                   @endforeach
                 </select>
               </div>
 
-              <div class="col-xs-4">
+              <div class="col-xs-3">
+                <label>Room <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="room" id="room">
+                  <option value="">---Select a Room---</option>
+                </select>
+              </div>
+
+              <div class="col-xs-3">
                 <label>PC Number <span class="required-field">*</span></label>
                 <input type="text" name="pc_number" class="form-control">
               </div>
 
-              <div class="col-xs-4">
+              <div class="col-xs-3">
                 <label>Status <span class="required-field">*</span></label>
                 <select class="form-control js-single" name="status">
                   <option value="0">Working</option>
@@ -96,6 +105,39 @@
   // In your Javascript (external .js resource or <script> tag)
   $(document).ready(function() {
       $('.js-single').select2();
+  });
+
+  function reset() {
+     $('#room').empty();
+     $('#room').append('<option value="">---Select a Room---</option>');
+   }
+
+   $( "#building" ).change(function() 
+   {
+    // alert( this.value );
+    <?php foreach($buildings as $row) : ?>
+    if(this.value == {{ $row->id }}){
+      reset();
+      <?php
+      foreach($rooms as $row1){
+        if($row1->building_id == $row->id){ ?>
+          $('#room').append('<option value="{{ $row1->id }}" selected="selected"> {{ $row1->name }} </option>');
+          <?php
+        }
+      }
+
+      ?>
+    }
+    <?php endforeach; ?>
+
+    // if(this.value == 1) {
+    //   $('#type').append('<option value="RAM" selected="selected">RAM</option>');
+    //   $('#type').append('<option value="HDD" selected="selected">HDD</option>');
+    //   $('#type').append('<option value="CPU" selected="selected">CPU</option>');
+    //   $('#type').append('<option value="Motherboard" selected="selected">Motherboard</option>');
+    //   $('#type').append('<option value="GPU" selected="selected">GPU</option>');
+    // }
+
   });
 </script>
 @endsection

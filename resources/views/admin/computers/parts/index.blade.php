@@ -169,12 +169,20 @@
           <div class="modal-body mx-3">
             <div class="md-form mb-5">
               <i class="fa fa-building"></i>
+              <label data-error="wrong" data-success="right">Building</label>
+              <select class="form-control js-single" name="room" id="modalbuilding{{ $row->id }}">
+                <option value="">--Select a Building--</option>
+                @foreach($buildings as $row1)
+                <option value="{{ $row1->id }}">{{ $row1->name }}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="md-form mb-5">
+              <i class="fa fa-building"></i>
               <label data-error="wrong" data-success="right">Room</label>
               <select class="form-control js-single" name="room" id="modalroom{{ $row->id }}">
                 <option value="">--Select a Room--</option>
-                @foreach($rooms as $row1)
-                <option value="{{ $row1->id }}">{{ $row1->name }}</option>
-                @endforeach
               </select>
 
             </div>
@@ -237,16 +245,42 @@
       else
         return false;
     }
-@foreach($parts as $row3)
-    function reset{{ $row3->id }}() {
+    @foreach($parts as $row3)
+    function resetpc{{ $row3->id }}() {
      $('#modalpc{{ $row3->id }}').empty();
      $('#modalpc{{ $row3->id }}').append('<option value="">--Select a Computer--</option>');
    }
+
+   function resetroom{{ $row3->id }}() {
+     $('#modalroom{{ $row3->id }}').empty();
+     $('#modalroom{{ $row3->id }}').append('<option value="">--Select a Computer--</option>');
+   }
    /* Load positions into postion <selec> */
+
+   $( "#modalbuilding{{ $row3->id }}" ).change(function() 
+   {
+    resetroom{{ $row3->id }}();
+    resetpc{{ $row3->id }}();
+    // alert( this.value );
+    <?php foreach($buildings as $building) : ?>
+    if(this.value == {{ $building->id }}){
+      <?php
+      foreach($rooms as $row){
+        if($row->building_id == $building->id){ ?>
+          $('#modalroom{{ $row3->id }}').append('<option value="{{ $row->id }}"> {{ $row->name }} </option>');
+          <?php
+        }
+      }
+
+      ?>
+    }
+    <?php endforeach; ?>
+
+  });
 
    $( "#modalroom{{ $row3->id }}" ).change(function() 
    {
-    reset{{ $row3->id }}();
+    resetpc{{ $row3->id }}();
     // alert( this.value );
     <?php foreach($rooms as $room) : ?>
     if(this.value == {{ $room->id }}){
@@ -262,17 +296,9 @@
     }
     <?php endforeach; ?>
 
-    // if(this.value == 1) {
-    //   $('#type').append('<option value="RAM" selected="selected">RAM</option>');
-    //   $('#type').append('<option value="HDD" selected="selected">HDD</option>');
-    //   $('#type').append('<option value="CPU" selected="selected">CPU</option>');
-    //   $('#type').append('<option value="Motherboard" selected="selected">Motherboard</option>');
-    //   $('#type').append('<option value="GPU" selected="selected">GPU</option>');
-    // }
-
   });
-@endforeach
-</script>
+   @endforeach
+ </script>
 
-@endsection
+ @endsection
 

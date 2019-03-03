@@ -12,7 +12,7 @@
 @section('header')
 <section class="content-header">
   <h1>
-    Items<small>Add Parts.</small>
+    Parts/Components<small>Add Parts/Components.</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ backpack_url() }}">Admin</a></li>
@@ -26,7 +26,7 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <!-- Default box -->  
-    <a href="{{ route('computer.index') }}" class="hidden-print"><i class="fa fa-angle-double-left"></i> Back to all computers</a><br><br>
+    <a href="{{ route('component.index') }}" class="hidden-print"><i class="fa fa-angle-double-left"></i> Back to all components</a><br><br>
     
     {{-- Show the errors, if any --}}
     @if ($errors->any())

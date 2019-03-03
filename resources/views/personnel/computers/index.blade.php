@@ -30,7 +30,7 @@
     <div class="col-md-12">
       <div class="box">
         <div class="box-header hidden-print with-border">
-            <a href="{{ route('computer.personnel.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Computer</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
+            <a href="{{ route('personnel.computer.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Computer</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
         </div>
 
         <div class="box-body overflow-hidden">
@@ -63,10 +63,10 @@
                 <td>
 
                   <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> 
-                  <a href="{{ route('computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
+                  <a href="{{ route('personnel.computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
                   <a href="{{ route('component.create', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Add Computer Parts</a> 
                   <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
-                    <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('computer.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
+                    <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('personnel.computer.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
                             {{ method_field('DELETE') }}
                           </form></td>

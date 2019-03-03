@@ -112,8 +112,11 @@ Route::group([
 	Route::match(['PUT', 'PATCH'], 'admin/component/{id}/add', 'ComponentController@add')->name('add.component.update');
 
 	//Personnel Computer Routes
-	Route::get('computers/personnel', 'ComputerPersonnelController@index')->name('computer.personnel.index');
-	Route::get('computers/personnel/create', 'ComputerPersonnelController@create')->name('computer.personnel.create');
-	Route::post('computers/personnel/create', 'ComputerPersonnelController@store')->name('computer.personnel.store');
+	Route::get('computers/personnel', 'ComputerPersonnelController@index')->name('personnel.computer.index');
+	Route::get('computers/personnel/create', 'ComputerPersonnelController@create')->name('personnel.computer.create');
+	Route::post('computers/personnel/create', 'ComputerPersonnelController@store')->name('personnel.computer.store');
+	Route::get('computers/personnel/{id}/edit', 'ComputerPersonnelController@edit')->name('personnel.computer.edit');
+	Route::match(['PUT', 'PATCH'], 'computers/personnel/{id}/edit', 'ComputerPersonnelController@update')->name('personnel.computer.update');
+	Route::delete('computers/personnel/{id}/delete', 'ComputerPersonnelController@destroy')->name('personnel.computer.destroy');
 
 }); // this should be the absolute last line of this file

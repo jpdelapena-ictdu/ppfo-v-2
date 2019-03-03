@@ -46,7 +46,7 @@ class ComputerPersonnelController extends Controller
         $buildings = Building::find(Auth::user()->building_id);
         $rooms = Room::where('building_id', Auth::user()->building_id)->get();
 
-        return view('admin.computers.create')
+        return view('personnel.computers.create')
             ->with('rooms', $rooms);
     }
 
@@ -66,7 +66,58 @@ class ComputerPersonnelController extends Controller
         // show a success message
         Alert::success('The Computer has been added successfully.')->flash();
 
-        return redirect()->route('computer.personnel.index');
+        return redirect()->route('personnel.computer.index');
+    }
 
+    public function edit($id) {
+
+    	$computer = Computer::find($id);
+    	$rooms = Room::orderBy('updated_at', 'desc')->get();
+    	$status = $computer->status;
+    	if($status == 0){
+    		$status = "Working";
+    	}elseif($status == 1){
+    		$status = "Not Working";
+    	}elseif($status == 2){
+    		$status = "For Repair";
+    	}elseif($status == 3){
+    		$status = "For Calibrate";
+    	}
+
+    	return view('personnel.computers.edit')
+    		->with('computer', $computer)
+    		->with('rooms', $rooms)
+    		->with('status', $status);
+    }
+
+    public function update(Request $request, $id) {
+
+    	$this->validate($request, [
+    		'room' => 'required',
+    		'pc_number' => 'required',
+    		'status' => 'required|max:191'
+
+    	]);
+
+    	$computer = Computer::find($id);
+    	$computer->room_id = $request->room;
+    	$computer->pc_number = $request->pc_number;
+    	$computer->status = $request->status;
+    	$computer->save();
+
+    	// show a success message
+        \Alert::success('The computer has been modified successfully.!')->flash();
+
+    	return redirect()->route('personnel.computer.index');
+    }
+
+    public function destroy($id) {
+    	$computer = Computer::find($id);
+    	$computer->delete();
+
+    	// show a success message
+        \Alert::success('Computer has been deleted.')->flash();
+
+        return redirect()->route('personnel.computer.index');
     }
 }

@@ -89,19 +89,17 @@
 
   </div>
   
-  @foreach($items as $row)
+   @foreach($items as $row)
   <!-- Modal -->
   <div class="modal fade" id="messageModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">View Item</h4>
+          <h4 class="modal-title" id="myModalLabel">View Item from {{ $row->building }}</h4>
         </div>
         <div class="modal-body">
           {{-- modal content --}}
-          <label>Building</label>
-          <p id="vbuilding">{{ $row->building }}</p>
 
           <label>Room</label>
           <p id="vroom">{{ $row->room }}</p>
@@ -112,27 +110,52 @@
           <label>Brand</label>
           <p id="vtype">{{ $row->brand }}</p>
 
+          <label>Serial #</label>
+          <p id="vquantity">{{ $row->serial }}</p>
+
+          <label>Quantity</label>
+          <p id="vquantity">{{ $row->amount }}</p>
+
           <label>Category</label>
-          <p id="vcategory">{{ $row->category }}</p>
+          @if($row->category == 0)
+                  <p id="vtype">Computer</p>
+                  @elseif($row->category == 1)
+                  <p id="vtype">Fixtures & Furnitures</p>
+                  @elseif($row->category == 2)
+                  <p id="vtype">Aircon</p>
+                  @elseif($row->category == 3)
+                  <p id="vtype">Equipments</p>
+                  @endif
 
           <label>Quantity</label>
           <p id="vquantity">{{ $row->quantity }}</p>
+
+          <label>Date Purchased</label>
+          <p id="vquantity">{{ $row->date_purchased }}</p>
+
+          <label>Date Issued</label>
+          <p id="vquantity">{{ $row->date_issued }}</p>
           
           <hr style="border: 1px solid #3c8dbc;">
           <div class="row" >
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <label>Working</label>
               <p id="vworking">{{ $row->working }}</p>
             </div>
 
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <label>Not Working</label>
               <p id="vnot_working">{{ $row->not_working }}</p>
             </div>
             
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <label>For Repair</label>
               <p id="vfor_repair">{{ $row->for_repair }}</p>
+            </div>
+
+            <div class="col-xs-3">
+              <label>For Calibrate</label>
+              <p id="vfor_repair">{{ $row->for_calibrate }}</p>
             </div>
           </div>
 
