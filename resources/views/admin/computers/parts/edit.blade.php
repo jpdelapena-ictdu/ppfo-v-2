@@ -51,12 +51,30 @@
 
           <div class="form-group col-xs-12">
             <div class="row">
-              <div class="col-xs-6">
+
+              <div class="col-xs-3">
+                <label>Building <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="building" id="building">
+                  <option value="none">---Select Building---</option>
+                  @foreach($buildings as $row)
+                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="col-xs-3">
+                <label>Room <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="room" id="room">
+                  <option value="none">---Select Room---</option>
+                </select>
+              </div>
+
+              <div class="col-xs-3">
                 <label>Brand <span class="required-field">*</span></label>
                 <input type="text" name="brand" class="form-control" value="{{ $component->brand }}">
               </div>
 
-              <div class="col-xs-6">
+              <div class="col-xs-3">
                 <label>Description <span class="required-field">*</span></label>
                 <input type="text" name="description" class="form-control" value="{{ $component->description }}">
               </div>
@@ -136,5 +154,24 @@
       $('#type').append('<option value="GPU" selected="selected">GPU</option>');
     }
     });
+
+  $( "#building" ).change(function() 
+   {
+    // alert( this.value );
+    <?php foreach($buildings as $row) : ?>
+    if(this.value == {{ $row->id }}){
+      reset();
+      <?php
+      foreach($rooms as $row1){
+        if($row1->building_id == $row->id){ ?>
+          $('#room').append('<option value="{{ $row1->id }}" selected="selected"> {{ $row1->name }} </option>');
+          <?php
+        }
+      }
+
+      ?>
+    }
+    <?php endforeach; ?>
+  });
 </script>
 @endsection

@@ -64,7 +64,7 @@
 
                   <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> 
                   <a href="{{ route('personnel.computer.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
-                  <a href="{{ route('component.create', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Add Computer Parts</a> 
+                  <a href="{{ route('personnel.component.create', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Add Computer Parts</a> 
                   <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('personnel.computer.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">

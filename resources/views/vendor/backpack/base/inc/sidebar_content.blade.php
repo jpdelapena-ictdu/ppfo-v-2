@@ -8,6 +8,7 @@
 	    <ul class="treeview-menu">
 	      <li><a href="{{ route('item.personnel.index') }}"><i class="fa fa-bars"></i> Items</a></li>
 	      <li><a href="{{ route('personnel.computer.index') }}"><i class="fa fa-bars"></i>Computers</a></li>
+	      <li><a href="{{ route('personnel.component.index') }}"><i class="fa fa-bars"></i>Components</a></li>
 	    </ul>
 	</li>
 @else

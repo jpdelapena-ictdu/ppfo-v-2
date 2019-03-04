@@ -25,11 +25,12 @@ class ComponentController extends Controller
 
         foreach ($components as $row) {
             $pc_num = Computer::find($row->pc_id);
+            $room = Room::find($row->room_id);
             if($row->pc_id == '' || !isset($pc_num)){
 
                 $partsArr[$x++] = [
                 'id' => $row->id,
-                'room' => '',
+                'room' => $room->name,
                 'pc_number' => '',
                 'category' => $row->category,
                 'type' => $row->type,
@@ -91,8 +92,11 @@ class ComponentController extends Controller
     		'description' => 'required',
     		'date_purchased' => 'required'
     	]);
+
     	$computer = Computer::find($id);
+        $room = Room::find($computer->room_id);
     	$parts = New Component;
+        $parts->room_id = $room->id;
     	$parts->pc_id = $computer->id;
         $parts->category = $request->category;
     	$parts->type = $request->type;
@@ -116,9 +120,13 @@ class ComponentController extends Controller
         abort_if(Auth::user()->user_type == 2, 404);
 
         $component = Component::find($id);
+        $buildings = Building::all();
+        $rooms = Room::all();
 
         return view('admin.computers.parts.edit')
-            ->with('component', $component);
+            ->with('component', $component)
+            ->with('buildings', $buildings)
+            ->with('rooms', $rooms);
     }
 
      public function update(Request $request, $id) {
@@ -172,7 +180,9 @@ class ComponentController extends Controller
             'date_purchased' => 'required'
         ]);
         $computer = Computer::find($id);
+        $room = Room::find($computer->room_id);
         $parts = New Component;
+        $parts->room_id = $room->id;
         $parts->pc_id = $computer->id;
         $parts->category = $request->category;
         $parts->type = $request->type;
@@ -194,14 +204,20 @@ class ComponentController extends Controller
 
     public function excesscreate() {
     abort_if(Auth::user()->user_type == 2, 404);
-
-        return view('admin.computers.parts.excesscreate');
+        $buildings = Building::all();
+        $rooms = Room::all();
+        $computers = Computer::all();
+        return view('admin.computers.parts.excesscreate')
+        ->with('buildings', $buildings)
+        ->with('rooms', $rooms)
+        ->with('computers', $computers);
     }
 
     public function excessstore(Request $request) {
         abort_if(Auth::user()->user_type == 2, 404);
 
         $this->validate($request, [
+            'room' => 'required|not_in:none',
             'type' => 'required|not_in:none',
             'brand' => 'required',
             'category' => 'required|not_in:none',
@@ -210,6 +226,8 @@ class ComponentController extends Controller
         ]);
 
         $parts = New Component;
+        $parts->room_id = $request->room;
+        $parts->pc_id = $request->computer;
         $parts->category = $request->category;
         $parts->type = $request->type;
         $parts->brand = $request->brand;
@@ -232,6 +250,7 @@ class ComponentController extends Controller
         abort_if(Auth::user()->user_type == 2, 404);
 
         $this->validate($request, [
+            'room' => 'required|not_in:none',
             'type' => 'required|not_in:none',
             'brand' => 'required',
             'category' => 'required|not_in:none',
@@ -240,6 +259,8 @@ class ComponentController extends Controller
         ]);
 
         $parts = New Component;
+        $parts->room_id = $request->room;
+        $parts->pc_id = $request->computer;
         $parts->category = $request->category;
         $parts->type = $request->type;
         $parts->brand = $request->brand;
@@ -273,4 +294,5 @@ class ComponentController extends Controller
 
         return redirect()->route('component.index');
     }
+
 }

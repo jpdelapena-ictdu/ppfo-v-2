@@ -12,11 +12,11 @@
 @section('header')
 <section class="content-header">
   <h1>
-    Parts/Components<small>Add Parts/Components.</small>
+    Items<small>Add Parts.</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ backpack_url() }}">Admin</a></li>
-    <li><a href="{{ route('computer.index') }}">Computers</a></li>
+    <li><a href="{{ route('personnel.computer.index') }}">Computers</a></li>
     <li class="active">Add</li>
   </ol>
 </section>
@@ -26,7 +26,7 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <!-- Default box -->  
-    <a href="{{ route('component.index') }}" class="hidden-print"><i class="fa fa-angle-double-left"></i> Back to all components</a><br><br>
+    <a href="{{ route('personnel.computer.index') }}" class="hidden-print"><i class="fa fa-angle-double-left"></i> Back to all computers</a><br><br>
     
     {{-- Show the errors, if any --}}
     @if ($errors->any())
@@ -40,44 +40,14 @@
     </div>
     @endif
 
-    <form method="post" id="create_form" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="create_form">
       {!! csrf_field() !!}
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Add a new Part/Component</h3>
+          <h3 class="box-title">Add a new Part/Component for {{ $computer->pc_number }}</h3>
         </div>
         <div class="box-body row display-flex-wrap" style="display: flex; flex-wrap: wrap;">
-
-        <div class="form-group col-xs-12">
-            <div class="row">
-
-              <div class="col-xs-4">
-                <label>Building <span class="required-field">*</span></label>
-                <select class="form-control js-single" name="building" id="building">
-                  <option value="none">---Select Building---</option>
-                  @foreach($buildings as $row)
-                    <option value="{{ $row->id }}">{{ $row->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-
-              <div class="col-xs-4">
-                <label>Room <span class="required-field">*</span></label>
-                <select class="form-control js-single" name="room" id="room">
-                  <option value="none">---Select a Room---</option>
-                </select>
-              </div>
-
-              <div class="col-xs-4">
-                <label>Computer <span class="required-field">*</span></label>
-                <select class="form-control js-single" name="computer" id="computer">
-                  <option value="">---EXCESS---</option>
-                </select>
-              </div>
-
-            </div>
-          </div>
 
           <div class="form-group col-xs-12">
             <div class="row">
@@ -144,17 +114,17 @@
 
       </div><!-- /.box-body -->
       <div class="box-footer">
-       <div class="border-top">
-        <div class="card-body">
-          <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('excess.component.store') }}"><i class="glyphicon glyphicon-floppy-disk"></i> Submit</button>
-          <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('excess.component.store.new') }}"><i class="glyphicon glyphicon-floppy-saved"></i> Submit And New</button>
+        <div class="border-top">
+          <div class="card-body">
+            <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('personnel.component.store' , $computer->id) }}"><i class="glyphicon glyphicon-floppy-disk"></i> Submit</button>
+            <button type="submit" class="btn btn-success btn-sm" form="create_form" formaction="{{ route('personnel.component.store.new', $computer->id) }}"><i class="glyphicon glyphicon-floppy-saved"></i> Submit And New</button>
+          </div>
         </div>
-      </div>
-    </div>
-  </div><!-- /.box-footer-->
+      </div><!-- /.box-footer-->
 
-</div><!-- /.box -->
-</div>
+    </div><!-- /.box -->
+
+  </div>
 </div>
 
 @endsection
@@ -185,66 +155,6 @@
       $('#type').append('<option value="Motherboard" selected="selected">Motherboard</option>');
       $('#type').append('<option value="GPU" selected="selected">GPU</option>');
     }
-    /*$.getJSON("/category/"+ $(this).val() +"/positions", function(jsonData){
-        select = '<select name="position" class="form-control input-sm " required id="position" >';
-          $.each(jsonData, function(i,data)
-          {
-               select +='<option value="'+data.position_id+'">'+data.name+'</option>';
-           });
-        select += '</select>';
-        $("#position").html(select);
-      });*/
-    });
-
-  function resetbuilding() {
-     $('#room').empty();
-     $('#computer').empty();
-     $('#room').append('<option value="none">---Select a Room---</option>');
-     $('#computer').append('<option value="">---EXCESS---</option>');
-   }
-
-   function resetroom() {
-     $('#computer').empty();
-     $('#computer').append('<option value="">---EXCESS---</option>');
-   }
-
-   $( "#building" ).change(function() 
-   {
-    // alert( this.value );
-    <?php foreach($buildings as $row) : ?>
-    if(this.value == {{ $row->id }}){
-      resetbuilding();
-      <?php
-      foreach($rooms as $row1){
-        if($row1->building_id == $row->id){ ?>
-          $('#room').append('<option value="{{ $row1->id }}"> {{ $row1->name }} </option>');
-          <?php
-        }
-      }
-
-      ?>
-    }
-    <?php endforeach; ?>
-
-  });
-
-   $( "#room" ).change(function() 
-   {
-    // alert( this.value );
-    <?php foreach($rooms as $row) : ?>
-    if(this.value == {{ $row->id }}){
-      resetroom();
-      <?php
-      foreach($computers as $row1){
-        if($row1->room_id == $row->id){ ?>
-          $('#computer').append('<option value="{{ $row1->id }}"> {{ $row1->pc_number }} </option>');
-          <?php
-        }
-      }
-
-      ?>
-    }
-    <?php endforeach; ?>
 
   });
   </script>
