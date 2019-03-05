@@ -304,4 +304,19 @@ class ComponentController extends Controller
         return redirect()->route('component.index');
     }
 
+    public function test(){
+        $component = Component::all();
+        $computer = Computer::all();
+
+        foreach($component as $part){
+            foreach($computer as $pc){
+                $computer1 = Computer::find($part->pc_id);
+                    if(!isset($computer1->id)){
+                        $part->room_id = 1;
+                        $part->save();
+                    }
+            }
+            
+        }
+    }
 }
