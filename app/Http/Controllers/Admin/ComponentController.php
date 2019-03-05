@@ -117,16 +117,23 @@ class ComponentController extends Controller
     }
 
      public function edit($id) {
+        
         abort_if(Auth::user()->user_type == 2, 404);
 
         $component = Component::find($id);
         $buildings = Building::all();
         $rooms = Room::all();
+        $computers = Computer::all();
+        $room = Room::find($component->room_id);
+        $b = Room::where('building_id', $room->building_id)->get();
 
         return view('admin.computers.parts.edit')
             ->with('component', $component)
             ->with('buildings', $buildings)
-            ->with('rooms', $rooms);
+            ->with('rooms', $rooms)
+            ->with('room', $room)
+            ->with('b', $b)
+            ->with('computers', $computers);
     }
 
      public function update(Request $request, $id) {
@@ -139,6 +146,8 @@ class ComponentController extends Controller
         ]);
 
         $component = component::find($id);
+        $component->room_id = $request->room;
+        $component->pc_id = $request->computer;
         $component->category = $component->category;
         $component->type = $component->type;
         $component->brand = $request->brand;
