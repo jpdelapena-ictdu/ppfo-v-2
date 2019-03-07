@@ -140,7 +140,9 @@ class ComponentController extends Controller
         abort_if(Auth::user()->user_type == 2, 404);
 
         $this->validate($request, [
+            'type' => 'required|not_in:none',
             'brand' => 'required',
+            'category' => 'required|not_in:none',
             'description' => 'required',
             'date_purchased' => 'required'
         ]);

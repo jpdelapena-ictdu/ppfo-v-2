@@ -30,7 +30,7 @@
   <div class="col-md-12">
     <div class="box">
       <div class="box-header hidden-print with-border">
-        <a href="{{ route('excess.component.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Excess Parts</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
+        <a href="{{ route('excess.personnel.component.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Excess Parts</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
       </div>
 
       <div class="box-body overflow-hidden">
@@ -87,9 +87,9 @@
                 <a href="#" class="btn btn-default btn-xs" id="AddPart" data-toggle="modal" data-target="#AddModal{{ $row->id }}"><i class="fa fa-plus-square"></i> Add to a Computer</a>
                 @endif
                 <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> 
-                <a href="{{ route('component.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
+                <a href="{{ route('personnel.component.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
                 <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
-                <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('component.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
+                <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('personnel.component.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                   <input type="hidden" name="_token" value="{{ Session::token() }}">
                   {{ method_field('DELETE') }}
                 </form></td>
@@ -150,7 +150,7 @@
   </div>
 
   {{-- Add to Computer Modal --}}
-  {{-- <div class="modal fade" id="AddModal{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  <div class="modal fade" id="AddModal{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -160,24 +160,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form method="post" action="{{ route('add.component.update', $row->id) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('personnel.add.component.update', $row->id) }}" enctype="multipart/form-data">
           <div class="modal-body mx-3">
-            <div class="md-form mb-5">
-              <i class="fa fa-building"></i>
-              <label data-error="wrong" data-success="right">Building</label>
-              <select class="form-control js-single" name="room" id="modalbuilding{{ $row->id }}">
-                <option value="">--Select a Building--</option>
-                @foreach($buildings as $row1)
-                <option value="{{ $row1->id }}">{{ $row1->name }}</option>
-                @endforeach
-              </select>
-            </div>
 
             <div class="md-form mb-5">
               <i class="fa fa-building"></i>
               <label data-error="wrong" data-success="right">Room</label>
               <select class="form-control js-single" name="room" id="modalroom{{ $row->id }}">
-                <option value="">--Select a Room--</option>
+                <option value="" selected>--Select a Room--</option>
+                @foreach($rooms as $room)
+                <option value="{{ $room->id }}">{{ $room->name }}</option>
+                @endforeach
               </select>
 
             </div>
@@ -199,7 +192,7 @@
         </form>
       </div>
     </div>
-  </div> --}}
+  </div>
   @endforeach
   @endsection
 
@@ -240,6 +233,36 @@
       else
         return false;
     }
+
+        @foreach($parts as $row3)
+
+   function resetpc{{ $row3->id }}() {
+     $('#modalpc{{ $row3->id }}').empty();
+     $('#modalpc{{ $row3->id }}').append('<option value="">--Select a Computer--</option>');
+   }
+   /* Load positions into postion <selec> */
+
+
+   $( "#modalroom{{ $row3->id }}" ).change(function() 
+   {
+    resetpc{{ $row3->id }}();
+    // alert( this.value );
+    <?php foreach($rooms as $room) : ?>
+    if(this.value == {{ $room->id }}){
+      <?php
+      foreach($computers as $row){
+        if($row->room_id == $room->id){ ?>
+          $('#modalpc{{ $row3->id }}').append('<option value="{{ $row->id }}" selected="selected"> {{ $row->pc_number }} </option>');
+          <?php
+        }
+      }
+
+      ?>
+    }
+    <?php endforeach; ?>
+
+  });
+   @endforeach
     
  </script>
 
