@@ -52,42 +52,89 @@
           {{-- <input type="hidden" name="room_id" value="{{ $room->id }}"> --}}
 
           <div class="form-group col-xs-12">
-            <label>Description <span class="required-field">*</span></label>
-            <input type="text" name="description" class="form-control">
-          </div>
+            <div class="row">
+              <div class="col-xs-3">
+                <label>Category <span class="required-field">*</span></label>
+                <select class="form-control js-single" name="category" id="category">
+                  <option value="none">Select Category</option>
+                  <option value="0">Computer</option>
+                  <option value="1">Fixtures & Furnitures</option>
+                  <option value="2">Aircon</option>
+                  <option value="3">Equipments</option>
+                </select>
+              </div>
 
-          <div class="form-group col-xs-12">
-            <label>Type <span class="required-field">*</span></label>
-            <input type="text" name="type" class="form-control">
-          </div>
+              <div class="col-xs-3">
+                <label>Brand <span class="required-field">*</span></label>
+                <input type="text" name="brand" class="form-control" id="brand">
+              </div>
 
-          <div class="form-group col-xs-12">
-            <label>Category <span class="required-field">*</span></label>
-            <input type="text" name="category" class="form-control">
+              <div class="col-xs-3">
+                <label>Description <span class="required-field">*</span></label>
+                <input type="text" name="description" class="form-control" id="description">
+              </div>  
+
+              <div class="col-xs-3">
+                <label>Quantity <span class="required-field">*</span></label>
+                <input type="text" name="quantity" class="form-control" id="quantity">
+              </div>
+
+            </div>
           </div>
 
           <div class="form-group col-xs-12">
             <div class="row">
+
               <div class="col-xs-3">
-                <label>Quantity <span class="required-field">*</span></label>
-                <input type="text" name="quantity" class="form-control">
+                <label>Serial <span class="required-field">*</span></label>
+                <input type="text" name="serial" class="form-control" id="serial">
               </div>
 
               <div class="col-xs-3">
+                <label>Date Purchased <span class="required-field">*</span></label>
+                <input type="date" name="date_purchased" class="form-control" id="date_purchased">
+              </div>
+
+              <div class="col-xs-3">
+                <label>Amount <span class="required-field">*</span></label>
+                <input type="text" name="amount" class="form-control" id="amount">
+              </div>
+
+              <div class="col-xs-3">
+                <label>Date Issued <span class="required-field">*</span></label>
+                <input type="date" name="date_issued" class="form-control" id="date_issued">
+              </div>
+
+            </div>
+          </div>
+
+             <div class="form-group col-xs-12">
+            <div class="row">
+              <div class="col-xs-3">
                 <label>Working</label>
-                <input type="text" name="working" class="form-control">
+                <input type="text" name="working" class="form-control" id="working">
               </div>
 
               <div class="col-xs-3">
                 <label>Not Working</label>
-                <input type="text" name="not_working" class="form-control">
+                <input type="text" name="not_working" class="form-control" id="not_working">
               </div>
 
               <div class="col-xs-3">
                 <label>For Repair</label>
-                <input type="text" name="for_repair" class="form-control">
+                <input type="text" name="for_repair" class="form-control" id="for_repair">
+              </div>
+
+              <div class="col-xs-3">
+                <label>For Calibration</label>
+                <input type="text" name="for_calibrate" class="form-control" id="for_calibrate">
               </div>
             </div>
+          </div>
+
+          <div class="form-group col-xs-12">
+            <label>Remarks</label>
+            <input type="text" name="remarks" class="form-control" id="remarks">
           </div>
 
         </div><!-- /.box-body -->
@@ -109,5 +156,44 @@
   $(document).ready(function() {
       $('.js-single').select2();
   });
+
+   $( "#category" ).change(function() 
+  {
+    // alert( this.value );
+    if(this.value == 0){
+      $('#description').prop('disabled', true);
+      $('#brand').prop('disabled', true);
+      $('#date_issued').prop('disabled', true);
+      $('#amount').prop('disabled', true);
+      $('#date_purchased').prop('disabled', true);
+      $('#serial').prop('disabled', true);
+      $('#working').prop('disabled', true);
+      $('#not_working').prop('disabled', true);
+      $('#for_repair').prop('disabled', true);
+      $('#for_calibrate').prop('disabled', true);
+      $('#remarks').prop('disabled', true);
+    }else{
+      $('#description').prop('disabled', false);
+      $('#brand').prop('disabled', false);
+      $('#date_issued').prop('disabled', false);
+      $('#amount').prop('disabled', false);
+      $('#date_purchased').prop('disabled', false);
+      $('#serial').prop('disabled', false);
+      $('#working').prop('disabled', false);
+      $('#not_working').prop('disabled', false);
+      $('#for_repair').prop('disabled', false);
+      $('#for_calibrate').prop('disabled', false);
+      $('#remarks').prop('disabled', false);
+    }
+    /*$.getJSON("/category/"+ $(this).val() +"/positions", function(jsonData){
+        select = '<select name="position" class="form-control input-sm " required id="position" >';
+          $.each(jsonData, function(i,data)
+          {
+               select +='<option value="'+data.position_id+'">'+data.name+'</option>';
+           });
+        select += '</select>';
+        $("#position").html(select);
+      });*/
+    });
 </script>
 @endsection

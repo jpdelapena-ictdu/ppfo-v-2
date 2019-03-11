@@ -643,7 +643,7 @@
         </div>
       </div><!-- /.box-footer-->
 
-
+    </div>
   </div>
 
 @endsection

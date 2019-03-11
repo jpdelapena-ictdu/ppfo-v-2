@@ -70,13 +70,14 @@
               <select class="form-control js-single" name="computer" id="computer">
                 
                     @if($component->pc_id == '')
-                      <option value="none"  selected>---EXCESS---</option>
+                      <option value="" selected>---EXCESS---</option>
                       @foreach($computers as $pc)
                           @if($pc->room_id == $component->room_id)
                           <option value="{{ $pc->id }}" >{{ $pc->pc_number }}</option>
                           @endif
                         @endforeach
                     @else
+                      <option value="">---EXCESS---</option>
                         @foreach($computers as $pc)
                           @if($pc->room_id == $component->room_id)
                           <option value="{{ $pc->id }}" @if($component->pc_id == $pc->id) selected @endif>{{ $pc->pc_number }}</option>

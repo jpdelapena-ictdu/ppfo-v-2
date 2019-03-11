@@ -15,6 +15,8 @@ class ComponentPersonnelController extends Controller
 {
 
 	public function index() {
+        abort_if(Auth::user()->user_type == 1, 404);
+
 		$buildings = Building::find(Auth::user()->building_id);
 		$components = Component::all();
 		$rooms = Room::where('building_id', $buildings->id)->get();
@@ -149,6 +151,7 @@ class ComponentPersonnelController extends Controller
 	}
 
 	public function create($id) {
+        abort_if(Auth::user()->user_type == 1, 404);
 
 		$computer = Computer::find($id);
 
@@ -157,6 +160,7 @@ class ComponentPersonnelController extends Controller
 	}
 
 	public function store(Request $request, $id) {
+        abort_if(Auth::user()->user_type == 1, 404);
 
 		$computer = Computer::find($id);
 		$room = Room::find($computer->room_id);
@@ -350,6 +354,7 @@ class ComponentPersonnelController extends Controller
 	}
 
 	public function storenew(Request $request, $id) {
+        abort_if(Auth::user()->user_type == 1, 404);
 		$this->validate($request, [
 			'type' => 'required|not_in:none',
 			'brand' => 'required',
@@ -381,6 +386,8 @@ class ComponentPersonnelController extends Controller
 	}
 
 	public function edit($id) {
+        abort_if(Auth::user()->user_type == 1, 404);
+
         $component = Component::find($id);
         $rooms = Room::where('building_id', Auth::user()->building_id)->get();
         $computers = Computer::all();
@@ -392,11 +399,10 @@ class ComponentPersonnelController extends Controller
     }
 
     public function update(Request $request, $id) {
+        abort_if(Auth::user()->user_type == 1, 404);
 
         $this->validate($request, [
-    		'type' => 'required|not_in:none',
     		'brand' => 'required',
-            'category' => 'required|not_in:none',
     		'description' => 'required',
     		'date_purchased' => 'required'
         ]);
@@ -422,6 +428,7 @@ class ComponentPersonnelController extends Controller
     }
 
     public function destroy($id) {
+        abort_if(Auth::user()->user_type == 1, 404);
 
         $component = Component::find($id);
         $component->delete();
@@ -435,6 +442,7 @@ class ComponentPersonnelController extends Controller
 
 
 	public function excesscreate() {
+        abort_if(Auth::user()->user_type == 1, 404);
 
         $buildings = Building::find(Auth::user()->building_id);
         $rooms = Room::where('building_id', Auth::user()->building_id)->get();
@@ -446,6 +454,8 @@ class ComponentPersonnelController extends Controller
     }
 
     public function excessstore(Request $request) {
+        abort_if(Auth::user()->user_type == 1, 404);
+
         $this->validate($request, [
             'room' => 'required|not_in:none',
             'type' => 'required|not_in:none',
@@ -476,6 +486,7 @@ class ComponentPersonnelController extends Controller
     }
 
     public function excessstorenew(Request $request) {
+        abort_if(Auth::user()->user_type == 1, 404);
 
         $this->validate($request, [
             'room' => 'required|not_in:none',
@@ -507,6 +518,8 @@ class ComponentPersonnelController extends Controller
     }
 
      public function add(Request $request, $id) {
+        abort_if(Auth::user()->user_type == 1, 404);
+        
         $this->validate($request, [
         	'room' => 'required',
             'computer' => 'required'

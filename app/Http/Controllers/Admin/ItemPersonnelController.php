@@ -75,6 +75,7 @@ return view('personnel.item.index')
     }
 
     public function store(Request $request) {
+    abort_if(Auth::user()->user_type == 1, 404);
        if($request->category != 'none'){
             if($request->category == '0'){
                 $this->validate($request, [
@@ -83,7 +84,11 @@ return view('personnel.item.index')
                     ]);
                 for($i = 1; $i <= $request->quantity; $i++){
                     $computer = New Computer;
-                    $computer->pc_number = 'PC' . $i;
+                    if($i < 10){
+                    $computer->pc_number = 'PC0' . $i;
+                    }else{
+                    $computer->pc_number = 'PC' . $i;   
+                    }   
                     $computer->room_id = $request->room;
                     $computer->status = 0;
                     $computer->save();                    

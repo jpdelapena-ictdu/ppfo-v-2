@@ -73,9 +73,14 @@ class ItemController extends Controller
                     'quantity' => 'required|numeric',
                     'room' => 'required'
                     ]);
+
                 for($i = 1; $i <= $request->quantity; $i++){
                     $computer = New Computer;
-                    $computer->pc_number = 'PC' . $i;
+                    if($i < 10){
+                    $computer->pc_number = 'PC0' . $i;
+                    }else{
+                    $computer->pc_number = 'PC' . $i;   
+                    }   
                     $computer->room_id = $request->room;
                     $computer->status = 0;
                     $computer->save();                    

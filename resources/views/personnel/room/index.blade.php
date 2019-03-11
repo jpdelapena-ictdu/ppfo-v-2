@@ -52,7 +52,13 @@
                 <td>{{ $row->name }}</td>
                 <td>{{ $row->short_name }}</td>
                 <td>{{ $row->in_charge }}</td>
-                <td><a href="{{ route('room.personnel.download.item', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-download"></i> Download Report</a> <a href="{{ route('room.personnel.create.item', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-plus"></i> Add Item</a> <a href="{{ route('room.personnel.show', $row->id) }}" class="btn btn-default btn-xs" id="viewRoom"><i class="fa fa-eye"></i> View Items</a> <a href="{{ route('room.personnel.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> @if(!in_array($row->id, $roomsCantBeDelete)) <button type="submit" class="btn btn-xs btn-default" form="deleteRoom{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
+                <td>
+                  <a href="{{ route('room.personnel.download.item', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-download"></i> Download Report</a> 
+                  <a href="{{ route('room.personnel.create.item', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-plus"></i> Add Item</a> 
+                  <a href="{{ route('room.personnel.show', $row->id) }}" class="btn btn-default btn-xs" id="viewRoom"><i class="fa fa-eye"></i> View Items</a> 
+                  <a href="{{ route('room.personnel.create.computer', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-plus"></i> Add Computer</a> 
+                  <a href="{{ route('room.personnel.computer', $row->id) }}" class="btn btn-default btn-xs" id="viewRoom"><i class="fa fa-eye"></i> View Computers</a> 
+                  <a href="{{ route('room.personnel.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> @if(!in_array($row->id, $roomsCantBeDelete)) <button type="submit" class="btn btn-xs btn-default" form="deleteRoom{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteRoom{{$row->id}}" method="POST" action="{{ route('room.personnel.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
                             {{ method_field('DELETE') }}

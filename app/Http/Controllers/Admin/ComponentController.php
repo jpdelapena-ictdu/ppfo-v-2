@@ -40,7 +40,8 @@ class ComponentController extends Controller
                 'date_purchased' => $row->date_purchased,
                 'amount' => $row->amount,
                 'date_issued' => $row->date_issued,
-                'remarks' => $row->remarks
+                'remarks' => $row->remarks,
+                'status' => $row->status
                 ];
             }else{
                     $pc = Computer::find($row->pc_id);
@@ -58,7 +59,8 @@ class ComponentController extends Controller
                         'date_purchased' => $row->date_purchased,
                         'amount' => $row->amount,
                         'date_issued' => $row->date_issued,
-                        'remarks' => $row->remarks
+                        'remarks' => $row->remarks,
+                        'status' => $row->status
                     ];
             }
     }   
@@ -85,14 +87,6 @@ class ComponentController extends Controller
     public function store(Request $request, $id) {
     	abort_if(Auth::user()->user_type == 2, 404);
 
-    	$this->validate($request, [
-    		'type' => 'required|not_in:none',
-    		'brand' => 'required',
-            'category' => 'required|not_in:none',
-    		'description' => 'required',
-    		'date_purchased' => 'required'
-    	]);
-
     	$computer = Computer::find($id);
         $room = Room::find($computer->room_id);
 
@@ -110,6 +104,7 @@ class ComponentController extends Controller
         $parts->serial = $request->monitorserial;
         $parts->date_issued = $request->monitordate_issued;
         $parts->remarks = $request->monitorremarks;
+        $parts->status = 1;
     	$parts->save();
         }
 
@@ -127,6 +122,7 @@ class ComponentController extends Controller
         $parts->serial = $request->keyboardserial;
         $parts->date_issued = $request->keyboarddate_issued;
         $parts->remarks = $request->keyboardremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -144,6 +140,7 @@ class ComponentController extends Controller
         $parts->serial = $request->mouseserial;
         $parts->date_issued = $request->mousedate_issued;
         $parts->remarks = $request->mouseremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -161,6 +158,7 @@ class ComponentController extends Controller
         $parts->serial = $request->avrserial;
         $parts->date_issued = $request->avrdate_issued;
         $parts->remarks = $request->avrremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -178,6 +176,7 @@ class ComponentController extends Controller
         $parts->serial = $request->headsetserial;
         $parts->date_issued = $request->headsetdate_issued;
         $parts->remarks = $request->headsetremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -195,6 +194,7 @@ class ComponentController extends Controller
         $parts->serial = $request->cpuserial;
         $parts->date_issued = $request->cpudate_issued;
         $parts->remarks = $request->cpuremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -212,6 +212,7 @@ class ComponentController extends Controller
         $parts->serial = $request->moboserial;
         $parts->date_issued = $request->mobodate_issued;
         $parts->remarks = $request->moboremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -229,6 +230,7 @@ class ComponentController extends Controller
         $parts->serial = $request->gpuserial;
         $parts->date_issued = $request->gpudate_issued;
         $parts->remarks = $request->gpuremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -246,6 +248,7 @@ class ComponentController extends Controller
         $parts->serial = $request->ramserial;
         $parts->date_issued = $request->ramdate_issued;
         $parts->remarks = $request->ramremarks;
+        $parts->status = 1;
         $parts->save();
         }
 
@@ -263,6 +266,7 @@ class ComponentController extends Controller
         $parts->serial = $request->hddserial;
         $parts->date_issued = $request->hdddate_issued;
         $parts->remarks = $request->hddremarks;
+        $parts->status = 1;
         $parts->save();
         }
 

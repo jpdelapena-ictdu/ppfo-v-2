@@ -68,12 +68,17 @@ Route::group([
 	Route::post('rooms/personnel/create', 'RoomPersonnelController@store')->name('room.personnel.store');
 	Route::get('rooms/personnel/{id}/edit', 'RoomPersonnelController@edit')->name('room.personnel.edit');
 	Route::get('rooms/personnel/{id}/show', 'RoomPersonnelController@show')->name('room.personnel.show');
+	Route::get('rooms/personnel/{id}/computer', 'RoomPersonnelController@computershow')->name('room.personnel.computer');
 	Route::match(['PUT', 'PATCH'], 'rooms/personnel/{id}/edit', 'RoomPersonnelController@update')->name('room.personnel.update');
 	Route::delete('rooms/personnel/{id}/delete', 'RoomPersonnelController@destroy')->name('room.personnel.destroy');
 
 	// add item in chosen room
 	Route::get('rooms/personnel/{id}/item/create', 'RoomPersonnelController@createItemInRoom')->name('room.personnel.create.item');
 	Route::post('rooms/personnel/{id}/item/create', 'RoomPersonnelController@storeItemInRoom')->name('room.personnel.store.item');
+
+	// add computer in chosen room
+	Route::get('rooms/personnel/{id}/computer/create', 'RoomPersonnelController@createComputerInRoom')->name('room.personnel.create.computer');
+	Route::post('rooms/personnel/{id}/computer/create', 'RoomPersonnelController@storeComputerInRoom')->name('room.personnel.store.computer');
 
 	// item
 	Route::get('items/personnel', 'ItemPersonnelController@index')->name('item.personnel.index');

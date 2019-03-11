@@ -8,6 +8,8 @@ use App\Building;
 use App\Room;
 use App\User;
 use App\Item;
+use App\Computer;
+use App\Component;
 use Auth;
 
 class RoomPersonnelController extends Controller
@@ -22,12 +24,16 @@ class RoomPersonnelController extends Controller
     	$rooms = Room::where('building_id', Auth::user()->building_id)->get();
         $building = Building::find(Auth::user()->building_id);
         $items = Item::all();
+        $computers = Computer::all();
         $roomsCantBeDelete = array();
 
         // get rooms that cant be delete
         foreach ($items as $row) {
-            if (!in_array($row->room_id, $roomsCantBeDelete)) {
+            foreach($computers as $row1){
+            if (!in_array($row->room_id, $roomsCantBeDelete) || !in_array($row1->room_id, $roomsCantBeDelete)  ) {
                 array_push($roomsCantBeDelete, $row->room_id);
+                array_push($roomsCantBeDelete, $row1->room_id);
+            }
             }
         }
     	
@@ -124,6 +130,19 @@ class RoomPersonnelController extends Controller
             ->with('items', $items);
     }
 
+        public function computershow($id) {
+        abort_if(Auth::user()->user_type == 1, 404);
+
+        $room = Room::find($id);
+        $computers = Computer::where('room_id', $room->id)->get();
+        $components = Component::where('room_id', $room->id)->get();
+
+        return view('personnel.room.showpc')
+            ->with('room', $room)
+            ->with('computers', $computers)
+            ->with('parts', $components);
+    }
+
     public function createItemInRoom($id) {
         abort_if(Auth::user()->user_type == 1, 404);
 
@@ -135,23 +154,52 @@ class RoomPersonnelController extends Controller
 
     public function storeItemInRoom(Request $request, $id) {
         abort_if(Auth::user()->user_type == 1, 404);
+
+        if($request->category != 'none'){
+            if($request->category == '0'){
+                $this->validate($request, [
+                    'quantity' => 'required|numeric'
+                    ]);
+                for($i = 1; $i <= $request->quantity; $i++){
+                    $computer = New Computer;
+                    if($i < 10){
+                    $computer->pc_number = 'PC0' . $i;
+                    }else{
+                    $computer->pc_number = 'PC' . $i;   
+                    }   
+                    $computer->room_id = $id;
+                    $computer->status = 0;
+                    $computer->save();                    
+                }
+
+                \Alert::success('Computer has been successfully added.')->flash();
+
+                return redirect()->route('room.personnel.computer', $id);
+            }
+        }
         
         $this->validate($request, [
             'description' => 'required',
-            'type' => 'required|max:191',
-            'category' => 'required|max:191',
+            'category' => 'required|not_in:none',
             'quantity' => 'required|numeric',
-            'working' => 'required_without_all:not_working,for_repair',
-            'not_working' => 'required_without_all:working,for_repair',
-            'for_repair' => 'required_without_all:working,not_working'
+            'working' => 'required_without_all:not_working,for_repair,for_calibrate',
+            'not_working' => 'required_without_all:working,for_repair,for_calibrate',
+            'for_repair' => 'required_without_all:working,not_working,for_calibrate',
+            'for_calibrate' => 'required_without_all:working,not_working,for_repair'
         ]);
 
         $item = New Item;
         $item->room_id = $id;
         $item->description = $request->description;
-        $item->type = $request->type;
+        $item->brand = $request->brand;
         $item->category = $request->category;
         $item->quantity = $request->quantity;
+        $item->serial = $request->serial;
+        $item->date_purchased = $request->date_purchased;
+        $item->amount = $request->amount;
+        $item->date_issued = $request->date_issued;
+        $item->remarks = $request->remarks;
+
         if (!$request->working == '') {
             $item->working = $request->working;
         }
@@ -161,12 +209,41 @@ class RoomPersonnelController extends Controller
         if (!$request->for_repair == '') {
             $item->for_repair = $request->for_repair;
         }
+        if (!$request->for_calibrate == '') {
+            $item->for_calibrate = $request->for_calibrate;
+        }
         $item->save();
 
         // show a success message
         \Alert::success('The item has been added successfully.')->flash();
 
         return redirect()->route('room.personnel.show', $id);
+    }
+
+    public function createComputerInRoom($id){
+        abort_if(Auth::user()->user_type == 1, 404);
+
+
+        $room = Room::find($id);
+
+        return view('personnel.room.create-computer')
+            ->with('room', $room);
+    }
+
+    public function storeComputerInRoom(Request $request, $id){
+        $this->validate($request, [
+            'pc_number' => 'required',
+            'status' => 'required'
+        ]);
+
+        $computer = New Computer;
+        $computer->room_id = $id;
+        $computer->pc_number = $request->pc_number;
+        $computer->status = $request->status;
+        $computer->save();
+
+        \Alert::success('Computer has been successfully added.')->flash();
+        return redirect()->route('room.personnel.computer', $id);
     }
 
     public function downloadItem($id) {

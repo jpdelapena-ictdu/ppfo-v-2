@@ -54,7 +54,7 @@
             <tbody>
               @foreach($items as $row)
               <tr>
-                <th scope="row">{{ $row->id }}</td>
+                <td scope="row">{{ $row->id }}</td>
                   <td>{{ $row->building }}</td>
                   <td>{{ $row->room }}</td>
                   <td>{{ $row->description }}</td>
@@ -72,7 +72,8 @@
                   <td>{{ $row->date_issued }}</td>
                   <td>{{ $row->quantity }}</td>
                   <td>{{ $row->remarks }}</td>
-                  <td><a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('item.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
+                  <td>
+                    <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> <a href="{{ route('item.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                     <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('item.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">
                       <input type="hidden" name="_token" value="{{ Session::token() }}">
                       {{ method_field('DELETE') }}

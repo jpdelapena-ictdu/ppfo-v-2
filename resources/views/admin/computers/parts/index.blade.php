@@ -73,7 +73,6 @@
               @elseif($row->category == 1)
               <td>Components</td>
               @endif
-
               <td>{{ $row->type }}</td>
               <td>{{ $row->brand }}</td>
               <td>{{ $row->description }}</td>
@@ -86,7 +85,14 @@
                 @if($row->pc_number == '')
                 <a href="#" class="btn btn-default btn-xs" id="AddPart" data-toggle="modal" data-target="#AddModal{{ $row->id }}"><i class="fa fa-plus-square"></i> Add to a Computer</a>
                 @endif
-                <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a> 
+                <a href="#" class="btn btn-default btn-xs" id="viewItem" data-toggle="modal" data-target="#messageModal{{$row->id}}"><i class="fa fa-eye"></i> View</a>
+                @if($row->status == 1)
+                <a href="#" class="btn btn-success btn-xs" disabled><i class="fa fa-check"></i></a>
+                <a href="{{ route('change.status', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                @else
+                <a href="{{ route('change.status', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-check"></i></a>
+                <a href="#" class="btn btn-danger btn-xs" style="background-color: #FF0000 !important;" disabled><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                @endif 
                 <a href="{{ route('component.edit', $row->id) }}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i> Edit</a> 
                 <button type="submit" class="btn btn-xs btn-default" form="deleteItem{{$row->id}}"><i class="fa fa-trash"></i> Delete</button>
                 <form id="deleteItem{{$row->id}}" method="POST" action="{{ route('component.destroy', $row->id) }}" onsubmit="return ConfirmDelete()">

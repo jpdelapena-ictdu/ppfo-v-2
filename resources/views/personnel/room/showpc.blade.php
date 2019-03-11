@@ -30,7 +30,7 @@
     <div class="col-md-12">
       <div class="box">
         <div class="box-header hidden-print with-border">
-            <a href="{{ route('personnel.computer.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Computer</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
+            <a href="{{ route('room.personnel.create.computer' , $room->id) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Computer</a> <a href="{{ route('download.item') }}" class="btn btn-primary"><i class="fa fa-download"></i> Download Report</a>
         </div>
 
         <div class="box-body overflow-hidden">
@@ -49,7 +49,7 @@
               @foreach($computers as $row)
               <tr>
                 <td>{{ $row->id }}</td>
-                <td>{{ $row->room }}</td>
+                <td>{{ $room->name }}</td>
                 <td>{{ $row->pc_number }}</td>
                 @if($row->status == 0)
                 <td>Working</td>
