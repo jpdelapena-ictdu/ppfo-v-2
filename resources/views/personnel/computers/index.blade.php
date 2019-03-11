@@ -113,27 +113,46 @@
           <hr>
           <label>Components</label>
           <br>
+          <div class="col-xs-12">
+            <div class="row">
           @foreach($parts as $row1)
             @if($row1->pc_id == $row->id)
               @if($row1->category == 1)
+              <div class="col-xs-3">
                 <label>{{ $row1->type }}</label>
-                <p id="vpartstype">Brand: {{ $row1->brand }}</p>
-                <p id="vpartstype">Description: {{ $row1->description }}</p>
+                <p id="vpartstype">{{ $row1->brand }}</p>
+                <p id="vpartstype">{{ $row1->description }}</p>
+              </div>
               @endif
             @endif
           @endforeach
+           </div>  
           <hr>
           <label>Parts</label>
           <br>
+          <div class="row">
           @foreach($parts as $row1)
             @if($row1->pc_id == $row->id)
               @if($row1->category == 0)
+              <div class="col-xs-3">
                 <label>{{ $row1->type }}</label>
-                <p id="vpartstype">Brand: {{ $row1->brand }}</p>
-                <p id="vpartstype">Description: {{ $row1->description }}</p>
+                <p id="vpartstype">{{ $row1->brand }}</p>
+                <p id="vpartstype">{{ $row1->description }}</p>
+                @if($row1->status == 1)
+                <p id="vpartstype" style="color: green; font-weight: bold;">Working</p>
+                <a href="#" class="btn btn-success btn-xs" disabled><i class="fa fa-check"></i></a>
+                <a href="{{ route('change.status', $row1->id) }}" class="btn btn-default btn-xs"><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                @else
+                <p id="vpartstype" style="color: red; font-weight: bold;">Not Working</p>
+                <a href="{{ route('change.status', $row1->id) }}" class="btn btn-default btn-xs"><i class="fa fa-check"></i></a>
+                <a href="#" class="btn btn-danger btn-xs" style="background-color: #FF0000 !important;" disabled><i class="fa fa-exclamation" aria-hidden="true"></i></a>
+                @endif
+              </div>
               @endif
             @endif
           @endforeach
+        </div>
+        </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

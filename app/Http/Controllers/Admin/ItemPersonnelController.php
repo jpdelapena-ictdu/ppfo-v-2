@@ -91,7 +91,7 @@ return view('personnel.item.index')
 
                 \Alert::success('Computer has been successfully added.')->flash();
 
-                return redirect()->route('personnel.item.index');
+                return redirect()->route('personnel.computer.index');
             }
         }
         $this->validate($request, [
