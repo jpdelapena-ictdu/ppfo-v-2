@@ -11,6 +11,7 @@
 	      <li><a href="{{ route('personnel.component.index') }}"><i class="fa fa-bars"></i>Components</a></li>
 	    </ul>
 	</li>
+	<li><a href="{{ route('order.index') }}"><i class="fa fa-building"></i> <span>Requests</span></a></li>
 @else
 	<li><a href="{{ route('user.index') }}"><i class="fa fa-users"></i> <span>Personnel</span></a></li>
 	<li><a href="{{ route('building.index') }}"><i class="fa fa-building"></i> <span>Building</span></a></li>
@@ -30,4 +31,5 @@
 	      <li><a href="{{ route('fixture.index') }}"><i class="fa fa-bars"></i> <span>Fixtures, Furnitures and <br/>Equipments</span></a></li>
 	    </ul>
 	</li>
+	<li><a href="{{ route('admin.order.index') }}"><i class="fa fa-building"></i> <span>Requests</span></a></li>
 @endif

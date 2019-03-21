@@ -144,5 +144,18 @@ Route::group([
 
 	Route::get('changestatus/{id}', 'ComponentPersonnelController@changestatus')->name('change.status');
 
+	//Order routes
+	Route::get('personnel/order', 'OrderController@index')->name('order.index');
+	Route::get('personnel/order/create', 'OrderController@create')->name('order.create');
+	Route::post('personnel/order/create', 'OrderController@store')->name('order.store');
+	Route::get('personnel/order/{id}/edit', 'OrderController@edit')->name('order.edit');
+	Route::match(['PUT', 'PATCH'], 'personnel/order/{id}/edit', 'OrderController@update')->name('order.update');
+	Route::delete('personnel/order/{id}/delete', 'OrderController@destroy')->name('order.destroy');
+
+	//Admin Order Routes
+	Route::get('/order', 'AdminOrderController@index')->name('admin.order.index');
+	Route::get('/order/approve/{id}', 'AdminOrderController@approve')->name('admin.order.approve');
+	Route::get('/order/reject/{id}', 'AdminOrderController@reject')->name('admin.order.reject');
+
 
 }); // this should be the absolute last line of this file
